@@ -1,0 +1,6 @@
+@e_Parcel_HostAddress = http://localhost:5104
+
+GET {{e_Parcel_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
