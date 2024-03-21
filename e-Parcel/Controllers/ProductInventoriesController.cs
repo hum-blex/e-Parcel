@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace e_Parcel.Controllers
 {
-	[Route("api/[controller]")]
+	[Route("[controller]")]
 	[ApiController]
 	public class ProductInventoriesController : ControllerBase
 	{
@@ -24,7 +24,7 @@ namespace e_Parcel.Controllers
 			return Ok(_data);
 		}
 
-		// GET: api/ProductInventories/5
+		// GET: ProductInventories/5
 		[HttpGet("{id}")]
 		public IActionResult GetProductInventory(int id)
 		{
@@ -33,8 +33,7 @@ namespace e_Parcel.Controllers
 			return Ok(_data);
 		}
 
-		// PUT: api/ProductInventories/5
-		// To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+		// PUT: ProductInventories/5
 		[HttpPut("{id}")]
 		public IActionResult Update(int id, ProductInventory inventory)
 		{
@@ -44,8 +43,7 @@ namespace e_Parcel.Controllers
 			return NoContent();
 		}
 
-		// POST: api/ProductInventories
-		// To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+		// POST: ProductInventories
 		[HttpPost]
 		public IActionResult Create(ProductInventory inventory)
 		{
@@ -56,7 +54,7 @@ namespace e_Parcel.Controllers
 			return CreatedAtAction(nameof(GetProductInventory), new { id = inventory.Id }, inventory);
 		}
 
-		// DELETE: api/ProductInventories/5
+		// DELETE: ProductInventories/5
 		[HttpDelete("{id}")]
 		public IActionResult Delete(int id)
 		{

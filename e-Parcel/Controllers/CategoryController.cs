@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace e_Parcel.Controllers
 {
-	[Route("api/[controller]")]
+	[Route("[controller]")]
 	[ApiController]
 	public class CategoryController : ControllerBase
 	{
