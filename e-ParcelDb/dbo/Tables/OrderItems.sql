@@ -1,9 +1,13 @@
 ﻿CREATE TABLE [dbo].[OrderItems] (
-    [id]         BIGINT       NOT NULL,
-    [OrderId]    VARCHAR (50) NOT NULL,
-    [Quantity]   VARCHAR (50) NOT NULL,
-    [ProductId]  VARCHAR (50) NOT NULL,
-    [CreatedOn]  DATETIME     NULL,
-    [ModifiedOn] DATETIME     NULL
+    [id]         INT      NOT NULL,
+    [OrderId]    INT      NOT NULL,
+    [Quantity]   INT      NOT NULL,
+    [ProductId]  INT      NOT NULL,
+    [CreatedOn]  DATETIME NOT NULL,
+    [ModifiedOn] DATETIME NULL,
+    CONSTRAINT [FK_OrderItems_OrderDetails] FOREIGN KEY ([OrderId]) REFERENCES [dbo].[OrderDetails] ([id]),
+    CONSTRAINT [FK_OrderItems_Products] FOREIGN KEY ([ProductId]) REFERENCES [dbo].[Products] ([Id])
 );
+
+
 

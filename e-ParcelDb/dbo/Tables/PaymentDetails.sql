@@ -1,11 +1,14 @@
 ﻿CREATE TABLE [dbo].[PaymentDetails] (
-    [id]         BIGINT       IDENTITY (1, 1) NOT NULL,
-    [PaymentId]  BIGINT       NOT NULL,
-    [OrderId]    VARCHAR (50) NOT NULL,
-    [Amount]     FLOAT (53)   NOT NULL,
+    [id]         INT          IDENTITY (1, 1) NOT NULL,
+    [OrderId]    INT          NOT NULL,
+    [Amount]     DECIMAL (18) NOT NULL,
     [Status]     VARCHAR (50) NOT NULL,
-    [CreatedOn]  DATETIME     NULL,
+    [CreatedOn]  DATETIME     NOT NULL,
     [ModifiedOn] DATETIME     NULL,
-    CONSTRAINT [PK_PaymentDetails] PRIMARY KEY CLUSTERED ([id] ASC)
+    [Provider]   VARCHAR (50) NOT NULL,
+    CONSTRAINT [PK_PaymentDetails] PRIMARY KEY CLUSTERED ([id] ASC),
+    CONSTRAINT [FK_PaymentDetails_OrderDetails] FOREIGN KEY ([OrderId]) REFERENCES [dbo].[OrderDetails] ([id])
 );
+
+
 
