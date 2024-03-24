@@ -38,6 +38,9 @@ public partial class Discount
     [Unicode(false)]
     public string? ModifiedBy { get; set; }
 
+    [Column(TypeName ="bool")]
+    public bool IsDeleted { get; set; }
+
     [InverseProperty("Discount")]
     public virtual ICollection<Product> Products { get; set; } = new List<Product>();
 }
