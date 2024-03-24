@@ -4,6 +4,9 @@ namespace e_Parcel.DataAccess.Repository.IRepository;
 
 public interface ICategoryRepository : IRepository<Category>
 {
-	void Update(Category obj);
+	void Update(int id, Category obj);
+
+	void UpdateDelete(int id);
+
 
 }

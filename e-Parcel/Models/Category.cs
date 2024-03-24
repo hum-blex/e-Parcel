@@ -33,6 +33,9 @@ public partial class Category
     [Unicode(false)]
     public string? ModifiedBy { get; set; }
 
+    [Column(TypeName ="bool")]
+    public bool IsDeleted { get; set; }
+
     [InverseProperty("Category")]
     public virtual ICollection<Product> Products { get; set; } = new List<Product>();
 }

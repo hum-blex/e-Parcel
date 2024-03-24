@@ -41,45 +41,41 @@ namespace e_Parcel.Controllers
 		public IActionResult Update(int id, [FromBody] Category obj)
 		{
 			if (id != obj.Id || obj == null) return BadRequest();
-			var existingCategory = _unitOfWork.Category.Get(u => u.Id == id);
-			if (existingCategory == null) return NotFound();
 
-			existingCategory.Name = obj.Name;
-			existingCategory.DisplayOrder = obj.DisplayOrder;
-			existingCategory.Description = obj.Description;
-
-			_unitOfWork.Category.Update(existingCategory);
+			_unitOfWork.Category.Update(id, obj);
 			_unitOfWork.Save();
 			return NoContent();
 		}
 
-		[HttpDelete("{id}")]
-		public IActionResult Delete(int id)
+		[HttpPatch("{id}")]
+		public IActionResult UpdateDelete(int id, Category obj)
 		{
-			var _data = _unitOfWork.Category.Get(u => u.Id == id);
-			if (_data == null) return NotFound();
+            if (id != obj.Id || obj == null) return BadRequest();
 
-			_unitOfWork.Category.Remove(_data);
+            _unitOfWork.Category.UpdateDelete(id);
 			_unitOfWork.Save();
-			return Ok(_data);
+			return Ok(obj);
 		}
 
 		[HttpDelete("range")]
 		public IActionResult DeleteRange([FromBody] IEnumerable<int> ids)
 		{
-			var categories = new List<Category>();
+			//var categories = new List<Category>();
 
 			foreach (var id in ids)
 			{
 				var category = _unitOfWork.Category.Get(u => u.Id == id);
-				if (category != null) categories.Add(category);
-			}
-			if (categories.Count == 0) return NotFound();
+				if (category == null) return NotFound();
+				_unitOfWork.Category.UpdateDelete(id);
+                _unitOfWork.Save();
+                //if (category != null) categories.Add(category);
+            }
+			//if (categories.Count == 0) return NotFound();
 
-			_unitOfWork.Category.RemoveRange(categories);
-			_unitOfWork.Save();
+			//_unitOfWork.Category.RemoveRange(categories);
+			//_unitOfWork.Save();
 
-			return Ok(categories);
+			return Ok();
 		}
 	}
 }
