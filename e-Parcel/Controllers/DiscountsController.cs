@@ -34,6 +34,14 @@ public class DiscountsController : ControllerBase
 		return Ok(_data);
 	}
 
+	[HttpPost]
+	public IActionResult Create(Discount obj)
+	{
+		if (obj == null) return BadRequest("Category is Null");
+		_unitOfWork.Discount.Add(obj);
+		_unitOfWork.Save();
+		return CreatedAtAction(nameof(GetDiscount), new { id = obj.Id }, obj);
+	}
 
 	[HttpDelete("{id}")]
 	public IActionResult Delete(int id)
