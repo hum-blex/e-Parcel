@@ -1,7 +1,5 @@
 ﻿using e_Parcel.DataAccess.Repository.IRepository;
 using e_Parcel.Models;
-using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.Mvc;
 
 namespace e_Parcel.DataAccess.Repository;
 
@@ -14,27 +12,19 @@ public class CategoryRepository : Repository<Category>, ICategoryRepository
 	}
 
 
-	public void Update(int id, Category obj)
+	public void Update(Category obj)
 	{
-		var existingCategory = _db.Categories.FirstOrDefault(c => c.Id == id);
-		
+		_db.Categories.Update(obj);
+	}
 
-		existingCategory.Name = obj.Name;
-		existingCategory.Description = obj.Description;
-		existingCategory.DisplayOrder = obj.DisplayOrder;
-
-		_db.Categories.Update(existingCategory);
+	public void UpdateDelete(Category obj)
+	{
+		var objFromDb = _db.Categories.FirstOrDefault(u => u.Id == obj.Id);
+		if (objFromDb != null)
+		{
+			obj.IsDeleted = true;
+		}
 	}
 
 
-    public void UpdateDelete(int id)
-	{
-		var existingCategory = _db.Categories.FirstOrDefault(c => c.Id == id);
-        
-
-		existingCategory.IsDeleted = true;
-
-
-        _db.Categories.Update(existingCategory);
-    }
 }

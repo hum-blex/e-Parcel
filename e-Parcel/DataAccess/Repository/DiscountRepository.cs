@@ -11,26 +11,19 @@ namespace e_Parcel.DataAccess.Repository
 			_db = db;
 		}
 
-		public void Update(int id, Discount obj)
+		public void Update(Discount obj)
 		{
-			var existingDiscount = _db.Discounts.FirstOrDefault(c => c.Id == id);
 
-			existingDiscount.DiscountPercentage = obj.DiscountPercentage;
-			existingDiscount.Active = obj.Active;
-			existingDiscount.Name = obj.Name;
-			existingDiscount.Description = obj.Description;
-			existingDiscount.ModifiedBy = obj.ModifiedBy;
-
-			_db.Discounts.Update(existingDiscount);
+			_db.Discounts.Update(obj);
 		}
 
-		public void UpdateDelete(int id) 
+		public void UpdateDelete(int id)
 		{
-            var existingDiscount = _db.Discounts.FirstOrDefault(c => c.Id == id);
+			var objFromDb = _db.Discounts.FirstOrDefault(c => c.Id == id);
+			if (objFromDb != null) objFromDb.IsDeleted = true;
 
-			existingDiscount.IsDeleted = true;
 
-			_db.Discounts.Update(existingDiscount);
-        }
+
+		}
 	}
 }

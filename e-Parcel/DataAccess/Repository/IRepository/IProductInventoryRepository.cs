@@ -4,5 +4,5 @@ namespace e_Parcel.DataAccess.Repository.IRepository;
 
 public interface IProductInventoryRepository : IRepository<ProductInventory>
 {
-	void Update(int id, ProductInventory obj);
+	void Update(ProductInventory obj);
 }
