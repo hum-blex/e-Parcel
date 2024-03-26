@@ -3,6 +3,7 @@ using e_Parcel.DataAccess.Repository;
 using e_Parcel.DataAccess.Repository.IRepository;
 using Microsoft.EntityFrameworkCore;
 
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.

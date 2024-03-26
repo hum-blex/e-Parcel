@@ -1,22 +1,21 @@
 ﻿using e_Parcel.DataAccess.Repository.IRepository;
 using e_Parcel.Models;
 
-namespace e_Parcel.DataAccess.Repository
+namespace e_Parcel.DataAccess.Repository;
+
+public class ProductInventoryRepository : Repository<ProductInventory>, IProductInventoryRepository
 {
-	public class ProductInventoryRepository : Repository<ProductInventory>, IProductInventoryRepository
+	private ApplicationDbContext _db;
+	public ProductInventoryRepository(ApplicationDbContext db) : base(db)
 	{
-		private ApplicationDbContext _db;
-		public ProductInventoryRepository(ApplicationDbContext db) : base(db)
-		{
-			_db = db;
-		}
+		_db = db;
+	}
 
 
-		public void Update(ProductInventory obj)
-		{
+	public void Update(ProductInventory obj)
+	{
 
 
-			_db.ProductInventories.Update(obj);
-		}
+		_db.ProductInventories.Update(obj);
 	}
 }
