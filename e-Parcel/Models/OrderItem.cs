@@ -1,11 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace e_Parcel.Models;
 
-[Keyless]
+
 public partial class OrderItem
 {
+	[Key]
 	[Column("id")]
 	public int Id { get; set; }
 
