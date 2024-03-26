@@ -15,22 +15,34 @@ namespace e_Parcel.Controllers
 			_unitOfWork = unitOfWork;
 		}
 		[HttpGet]
-		public IActionResult GetAll()
+		[ProducesResponseType(StatusCodes.Status200OK)]
+		[ProducesResponseType(StatusCodes.Status400BadRequest)]
+		[ProducesResponseType(StatusCodes.Status500InternalServerError)]
+
+		public ActionResult<Category> GetAll()
 		{
 			var _data = _unitOfWork.Category.GetAll();
+
+
 			if (!ModelState.IsValid) return BadRequest(ModelState);
 			return Ok(_data);
 		}
 
 		[HttpGet("{id}")]
-		public IActionResult Get(int id)
+		[ProducesResponseType(StatusCodes.Status200OK)]
+		[ProducesResponseType(StatusCodes.Status500InternalServerError)]
+		public ActionResult<Category> Get(int id)
 		{
 			var _data = _unitOfWork.Category.Get(u => u.Id == id);
 			return Ok(_data);
 		}
 
 		[HttpPost]
-		public IActionResult Create([FromBody] Category obj)
+		[ProducesResponseType(StatusCodes.Status201Created)]
+		[ProducesResponseType(StatusCodes.Status400BadRequest)]
+		[ProducesResponseType(StatusCodes.Status500InternalServerError)]
+
+		public ActionResult<Category> Create([FromBody] Category obj)
 		{
 			if (obj == null) return BadRequest("Category is Null");
 			_unitOfWork.Category.Add(obj);
@@ -39,7 +51,12 @@ namespace e_Parcel.Controllers
 		}
 
 		[HttpPut("{id}")]
-		public IActionResult Update(int id, [FromBody] Category obj)
+		[ProducesResponseType(StatusCodes.Status204NoContent)]
+		[ProducesResponseType(StatusCodes.Status200OK)]
+		[ProducesResponseType(StatusCodes.Status400BadRequest)]
+		[ProducesResponseType(StatusCodes.Status500InternalServerError)]
+
+		public ActionResult<Category> Update(int id, [FromBody] Category obj)
 		{
 			if (id != obj.Id || obj == null) return BadRequest();
 
@@ -59,7 +76,12 @@ namespace e_Parcel.Controllers
 		//}
 
 		[HttpDelete("{id}")]
-		public IActionResult Delete(int id)
+		[ProducesResponseType(StatusCodes.Status200OK)]
+		[ProducesResponseType(StatusCodes.Status404NotFound)]
+		[ProducesResponseType(StatusCodes.Status500InternalServerError)]
+
+		//[ProducesResponseType()]
+		public ActionResult<Category> Delete(int id)
 		{
 			var _data = _unitOfWork.Category.Get(u => u.Id == id);
 			if (_data == null) return NotFound();
@@ -71,7 +93,10 @@ namespace e_Parcel.Controllers
 
 
 		[HttpDelete("range")]
-		public IActionResult DeleteRange([FromBody] IEnumerable<int> ids)
+		[ProducesResponseType(StatusCodes.Status200OK)]
+		[ProducesResponseType(StatusCodes.Status404NotFound)]
+		[ProducesResponseType(StatusCodes.Status500InternalServerError)]
+		public ActionResult<Category> DeleteRange([FromBody] IEnumerable<int> ids)
 		{
 			var categories = new List<Category>();
 
