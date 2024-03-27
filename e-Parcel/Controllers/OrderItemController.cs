@@ -37,7 +37,7 @@ namespace e_Parcel.Controllers
         [HttpPost]
         public IActionResult Create([FromBody] OrderItem obj)
         {
-            if(obj == null) return BadRequest("Cart Item is null");
+            if(obj == null) return BadRequest("Order Item is null");
 
             _unitOfWork.OrderItem.Add(obj);
             _unitOfWork.Save();
