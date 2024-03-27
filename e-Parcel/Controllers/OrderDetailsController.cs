@@ -47,10 +47,9 @@ namespace e_Parcel.Controllers
         [HttpPut("{id}")]
         public IActionResult Update(int id, [FromBody] OrderDetail obj)
         {
-            var _data = _unitOfWork.OrderDetail.Get(c => c.Id == id);
-            if (_data == null) return NotFound();
+            if (id != obj.Id || obj == null) return BadRequest();
 
-            _unitOfWork.OrderDetail.Update(_data);
+            _unitOfWork.OrderDetail.Update(obj);
             _unitOfWork.Save();
             return Ok();
         }

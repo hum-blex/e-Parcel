@@ -38,10 +38,8 @@ namespace e_Parcel.Controllers
 		public IActionResult Update(int id, ProductInventory inventory)
 		{
 			if (id != inventory.Id || inventory == null) return BadRequest();
-			var _data = _unitOfWork.ProductInventory.Get(u => u.Id == id);
-			if (_data == null) return NotFound();
 
-			_unitOfWork.ProductInventory.Update(_data);
+			_unitOfWork.ProductInventory.Update(inventory);
 			_unitOfWork.Save();
 			return NoContent();
 		}

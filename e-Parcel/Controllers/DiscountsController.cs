@@ -44,12 +44,11 @@ public class DiscountsController : ControllerBase
 	}
 
 	[HttpDelete("{id}")]
-	public IActionResult Delete(int id)
+	public IActionResult Delete(int id, Discount obj)
 	{
-		var _data = _unitOfWork.Discount.Get(c => c.Id == id);
-		if (_data == null) return NotFound();
+        if (id != obj.Id || obj == null) return BadRequest();
 
-		_unitOfWork.Discount.Remove(_data);
+        _unitOfWork.Discount.Remove(obj);
 		_unitOfWork.Save();
 		return NoContent();
 	}

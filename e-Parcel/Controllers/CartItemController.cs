@@ -48,10 +48,9 @@ namespace e_Parcel.Controllers
         [HttpPut("{id}")]
         public IActionResult Update(int id, [FromBody] CartItem obj)
         {
-            var _data = _unitOfWork.CartItem.Get(c => c.Id == id);
-            if (_data == null) return NotFound();
+            if (id != obj.Id || obj == null) return BadRequest();
 
-            _unitOfWork.CartItem.Update(_data);
+            _unitOfWork.CartItem.Update(obj);
             _unitOfWork.Save();
             return Ok();
         }
