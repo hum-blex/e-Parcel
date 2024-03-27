@@ -12,13 +12,13 @@ namespace e_Parcel.DataAccess.Repository
 		}
 		public void Update(CartItem obj)
 		{
-			var existingDiscount = _db.CartItems.FirstOrDefault(x => x.Id == obj.Id);
+			var existingItem = _db.CartItems.FirstOrDefault(x => x.Id == obj.Id);
 
-            existingDiscount.Quantity = obj.Quantity;
-            existingDiscount.Product = obj.Product;
-			existingDiscount.SessionId = obj.SessionId;
-			existingDiscount.ProductId = obj.ProductId;
-			existingDiscount.Session = obj.Session;
+            existingItem.Quantity = obj.Quantity;
+            existingItem.Product = obj.Product;
+            existingItem.SessionId = obj.SessionId;
+            existingItem.ProductId = obj.ProductId;
+            existingItem.Session = obj.Session;
 
 
             _db.CartItems.Update(obj);
