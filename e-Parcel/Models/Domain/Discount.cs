@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 
-namespace e_Parcel.Models;
+namespace e_Parcel.Models.Domain;
 
 [Table("Discount")]
 public partial class Discount
@@ -38,8 +38,7 @@ public partial class Discount
     [Unicode(false)]
     public string? ModifiedBy { get; set; }
 
-    [Column(TypeName ="bool")]
-    public bool IsDeleted { get; set; }
+    public bool? IsDeleted { get; set; }
 
     [InverseProperty("Discount")]
     public virtual ICollection<Product> Products { get; set; } = new List<Product>();

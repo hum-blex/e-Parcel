@@ -1,6 +1,7 @@
 using e_Parcel.DataAccess;
 using e_Parcel.DataAccess.Repository;
 using e_Parcel.DataAccess.Repository.IRepository;
+using e_Parcel.Mappings;
 using Microsoft.EntityFrameworkCore;
 
 
@@ -14,6 +15,7 @@ builder.Services.AddControllers().AddXmlDataContractSerializerFormatters();
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 	options.UseSqlServer(builder.Configuration.GetConnectionString("defaultConnection")));
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddAutoMapper(typeof(AutoMapperProfiles));
 
 var app = builder.Build();
 

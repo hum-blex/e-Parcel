@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using e_Parcel.Models.Domain;
-using Microsoft.EntityFrameworkCore;
 
-namespace e_Parcel.Models;
+namespace e_Parcel.Models.Domain;
 
-[Table("ShoppingSession")]
-public partial class ShoppingSession
+public partial class OrderDetail
 {
     [Key]
     [Column("id")]
@@ -19,16 +15,19 @@ public partial class ShoppingSession
     [Column(TypeName = "decimal(18, 0)")]
     public decimal Total { get; set; }
 
+    public int PaymentId { get; set; }
+
     [Column(TypeName = "datetime")]
     public DateTime CreatedOn { get; set; }
 
     [Column(TypeName = "datetime")]
     public DateTime? ModifiedOn { get; set; }
 
-    [InverseProperty("Session")]
-    public virtual ICollection<CartItem> CartItems { get; set; } = new List<CartItem>();
+    [InverseProperty("Order")]
+    public virtual ICollection<PaymentDetail> PaymentDetails { get; set; } = new List<PaymentDetail>();
 
     [ForeignKey("UserId")]
-    [InverseProperty("ShoppingSessions")]
+    [InverseProperty("OrderDetails")]
+    [ValidateNever]
     public virtual UserLogin User { get; set; } = null!;
 }

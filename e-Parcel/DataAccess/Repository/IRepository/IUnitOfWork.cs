@@ -15,5 +15,5 @@ public interface IUnitOfWork
 	IUserLoginRepository UserLogin { get; }
 	IUserPaymentRepository UserPayment { get; }
 
-	void Save();
+	Task SaveAsync();
 }

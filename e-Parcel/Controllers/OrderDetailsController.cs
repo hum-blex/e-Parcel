@@ -1,5 +1,5 @@
 ﻿using e_Parcel.DataAccess.Repository.IRepository;
-using e_Parcel.Models;
+using e_Parcel.Models.Domain;
 using Microsoft.AspNetCore.Mvc;
 
 namespace e_Parcel.Controllers;
@@ -15,69 +15,69 @@ public class OrderDetailsController : ControllerBase
 	}
 
 	[HttpGet]
-	public IActionResult GetAll()
+	public async Task<ActionResult<OrderDetail>> GetAll()
 	{
-		var _data = _unitOfWork.OrderDetail.GetAll();
+		var _data = await _unitOfWork.OrderDetail.GetAllAsync();
 		if (!ModelState.IsValid) return BadRequest(ModelState);
 		return Ok(_data);
 	}
 
 
 	[HttpGet("{id}")]
-	public IActionResult Get(int id)
+	public async Task<ActionResult<OrderDetail>> Get(int id)
 	{
-		var _data = _unitOfWork.OrderDetail.Get(c => c.Id == id);
+		var _data = await _unitOfWork.OrderDetail.GetAsync(c => c.Id == id);
 		if (_data == null) return NotFound();
 		return Ok(_data);
 	}
 
 
 	[HttpPost]
-	public IActionResult Create([FromBody] OrderDetail obj)
+	public async Task<ActionResult<OrderDetail>> Create([FromBody] OrderDetail obj)
 	{
 		if (obj == null) return BadRequest("Order Detail is null");
 
-		_unitOfWork.OrderDetail.Add(obj);
-		_unitOfWork.Save();
+		await _unitOfWork.OrderDetail.AddAsync(obj);
+		await _unitOfWork.SaveAsync();
 		return CreatedAtAction(nameof(Get), new { id = obj.Id }, obj);
 	}
 
 	[HttpPut("{id}")]
-	public IActionResult Update(int id, [FromBody] OrderDetail obj)
+	public async Task<ActionResult<OrderDetail>> Update(int id, [FromBody] OrderDetail obj)
 	{
 		if (id != obj.Id || obj == null) return BadRequest();
 
 		_unitOfWork.OrderDetail.Update(obj);
-		_unitOfWork.Save();
+		await _unitOfWork.SaveAsync();
 		return Ok();
 	}
 
 
 	[HttpDelete("{id}")]
-	public IActionResult Delete(int id)
+	public async Task<ActionResult<OrderDetail>> Delete(int id)
 	{
-		var _data = _unitOfWork.OrderDetail.Get(c => c.Id == id);
+		var _data = await _unitOfWork.OrderDetail.GetAsync(c => c.Id == id);
 		if (_data == null) return NotFound();
 
-		_unitOfWork.OrderDetail.Remove(_data);
-		_unitOfWork.Save();
+		_unitOfWork.OrderDetail.RemoveAsync(_data);
+		await _unitOfWork.SaveAsync();
 		return Ok();
 	}
 
 	[HttpDelete("range")]
-	public IActionResult DeleteRange(IEnumerable<int> ids)
+	public async Task<ActionResult<OrderDetail>> DeleteRange(IEnumerable<int> ids)
 	{
 		var _items = new List<OrderDetail>();
 
 		foreach (int id in ids)
 		{
-			var _item = _unitOfWork.OrderDetail.Get(c => c.Id == id);
+			var _item = await _unitOfWork.OrderDetail.GetAsync(c => c.Id == id);
 			if (_item != null) _items.Add(_item);
 		}
 		if (_items.Count == 0) return NotFound();
 
-		_unitOfWork.OrderDetail.RemoveRange(_items);
-		_unitOfWork.Save();
+		_unitOfWork.OrderDetail.RemoveRangeAsync(_items);
+		await _unitOfWork.SaveAsync();
 		return Ok(_items);
 	}
 }

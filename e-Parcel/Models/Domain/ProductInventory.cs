@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 
-namespace e_Parcel.Models;
+namespace e_Parcel.Models.Domain;
 
 [Table("ProductInventory")]
 public partial class ProductInventory
