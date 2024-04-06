@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace e_Parcel.Models;
+namespace e_Parcel.Models.Domain;
 
 public partial class Category
 {
@@ -31,8 +31,7 @@ public partial class Category
 	[Unicode(false)]
 	public string? ModifiedBy { get; set; }
 
-	[Column(TypeName = "bool")]
-	public bool IsDeleted { get; set; } = false;
+	public bool? IsDeleted { get; set; }
 
 	[InverseProperty("Category")]
 	public virtual ICollection<Product> Products { get; set; } = new List<Product>();

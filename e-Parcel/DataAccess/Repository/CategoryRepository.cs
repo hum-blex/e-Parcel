@@ -1,5 +1,6 @@
 ﻿using e_Parcel.DataAccess.Repository.IRepository;
-using e_Parcel.Models;
+using e_Parcel.Models.Domain;
+using Microsoft.EntityFrameworkCore;
 
 namespace e_Parcel.DataAccess.Repository;
 
@@ -12,18 +13,16 @@ public class CategoryRepository : Repository<Category>, ICategoryRepository
 	}
 
 
-	public void Update(Category obj)
+	public async Task<Category> UpdateAsync(int id, Category obj)
 	{
-		_db.Categories.Update(obj);
-	}
+		var existing = await _db.Categories.FirstOrDefaultAsync(c => c.Id == id);
+		if (existing == null) return null;
+		existing.Name = obj.Name;
+		existing.Description = obj.Description;
+		existing.DisplayOrder = obj.DisplayOrder;
+		existing.ModifiedOn = DateTime.Now;
 
-	public void UpdateDelete(Category obj)
-	{
-		var objFromDb = _db.Categories.FirstOrDefault(u => u.Id == obj.Id);
-		if (objFromDb != null)
-		{
-			obj.IsDeleted = true;
-		}
+		return existing;
 	}
 
 

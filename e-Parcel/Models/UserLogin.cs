@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using e_Parcel.Models.Domain;
 using Microsoft.EntityFrameworkCore;
 
 namespace e_Parcel.Models;

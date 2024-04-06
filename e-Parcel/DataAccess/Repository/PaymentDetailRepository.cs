@@ -1,5 +1,5 @@
 ﻿using e_Parcel.DataAccess.Repository.IRepository;
-using e_Parcel.Models;
+using e_Parcel.Models.Domain;
 
 namespace e_Parcel.DataAccess.Repository;
 

@@ -1,5 +1,5 @@
 ﻿using e_Parcel.DataAccess.Repository.IRepository;
-using e_Parcel.Models;
+using e_Parcel.Models.Domain;
 using Microsoft.AspNetCore.Mvc;
 
 
@@ -17,66 +17,66 @@ public class DiscountsController : ControllerBase
 	}
 
 	[HttpGet]
-	public IActionResult GetDiscounts()
+	public async Task<ActionResult<Discount>> GetDiscounts()
 	{
-		var _data = _unitOfWork.Discount.GetAll();
+		var _data = await _unitOfWork.Discount.GetAllAsync();
 		if (!ModelState.IsValid) return BadRequest(ModelState);
 		return Ok(_data);
 	}
 
 
 	[HttpGet("{id}")]
-	public IActionResult GetDiscount(int id)
+	public async Task<ActionResult<Discount>> GetDiscount(int id)
 	{
-		var _data = _unitOfWork.Discount.Get(c => c.Id == id);
+		var _data = await _unitOfWork.Discount.GetAsync(c => c.Id == id);
 		if (_data == null) return NotFound();
 
 		return Ok(_data);
 	}
 
 	[HttpPost]
-	public IActionResult Create(Discount obj)
+	public async Task<ActionResult<Discount>> Create(Discount obj)
 	{
 		if (obj == null) return BadRequest("Category is Null");
-		_unitOfWork.Discount.Add(obj);
-		_unitOfWork.Save();
+		await _unitOfWork.Discount.AddAsync(obj);
+		await _unitOfWork.SaveAsync();
 		return CreatedAtAction(nameof(GetDiscount), new { id = obj.Id }, obj);
 	}
 
 	[HttpDelete("{id}")]
-	public IActionResult Delete(int id)
+	public async Task<ActionResult<Discount>> Delete(int id)
 	{
-		var _data = _unitOfWork.Discount.Get(c => c.Id == id);
+		var _data = await _unitOfWork.Discount.GetAsync(c => c.Id == id);
 		if (_data == null) return NotFound();
 
-		_unitOfWork.Discount.Remove(_data);
-		_unitOfWork.Save();
+		_unitOfWork.Discount.RemoveAsync(_data);
+		await _unitOfWork.SaveAsync();
 		return NoContent();
 	}
 
 
 	[HttpPut("{id}")]
-	public IActionResult UpdateDiscounts(int id, [FromBody] Discount obj)
+	public async Task<ActionResult<Discount>> UpdateDiscounts(int id, [FromBody] Discount obj)
 	{
 		if (id != obj.Id || obj == null) return BadRequest();
 
 		_unitOfWork.Discount.Update(obj);
-		_unitOfWork.Save();
+		await _unitOfWork.SaveAsync();
 		return NoContent();
 	}
 
 	[HttpDelete("range")]
-	public IActionResult DeleteRange(IEnumerable<int> ids)
+	public async Task<ActionResult<Discount>> DeleteRange(IEnumerable<int> ids)
 	{
 		var discounts = new List<Discount>();
 		foreach (int id in ids)
 		{
-			var discount = _unitOfWork.Discount.Get(c => c.Id == id);
+			var discount = await _unitOfWork.Discount.GetAsync(c => c.Id == id);
 			if (discount != null) discounts.Add(discount);
 		}
 		if (discounts.Count == 0) return NotFound();
-		_unitOfWork.Discount.RemoveRange(discounts);
-		_unitOfWork.Save();
+		_unitOfWork.Discount.RemoveRangeAsync(discounts);
+		await _unitOfWork.SaveAsync();
 		return Ok(discounts);
 	}
 }

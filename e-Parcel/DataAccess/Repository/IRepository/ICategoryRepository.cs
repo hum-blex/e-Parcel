@@ -1,11 +1,10 @@
-﻿using e_Parcel.Models;
+﻿using e_Parcel.Models.Domain;
 
 namespace e_Parcel.DataAccess.Repository.IRepository;
 
 public interface ICategoryRepository : IRepository<Category>
 {
-	void Update(Category obj);
-	void UpdateDelete(Category obj);
+	Task<Category> UpdateAsync(int id, Category obj);
 
 
 

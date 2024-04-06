@@ -16,12 +16,12 @@ public class Repository<T> : IRepository<T> where T : class
 		// generics  eg. _db.Categories == dbSet
 	}
 
-	public void Add(T entity)
+	public async Task AddAsync(T entity)
 	{
-		dbSet.Add(entity);
+		await dbSet.AddAsync(entity);
 	}
 
-	public T Get(Expression<Func<T, bool>> filter, string? includeProperties = null)
+	public async Task<T> GetAsync(Expression<Func<T, bool>> filter, string? includeProperties = null)
 	{
 		IQueryable<T> query = dbSet;
 		// whatever filter/condition we have will be assigned to query
@@ -35,10 +35,10 @@ public class Repository<T> : IRepository<T> where T : class
 				query = query.Include(includeProp);
 			}
 		}
-		return query.FirstOrDefault();
+		return await query.FirstOrDefaultAsync();
 	}
 
-	public IEnumerable<T> GetAll(string? includeProperties = null)
+	public async Task<IEnumerable<T>> GetAllAsync(string? includeProperties = null)
 	{
 		IQueryable<T> query = dbSet;
 
@@ -51,15 +51,15 @@ public class Repository<T> : IRepository<T> where T : class
 				query = query.Include(includeProp);
 			}
 		}
-		return query.ToList();
+		return await query.ToListAsync();
 	}
 
-	public void Remove(T entity)
+	public async Task RemoveAsync(T entity)
 	{
 		dbSet.Remove(entity);
 	}
 
-	public void RemoveRange(IEnumerable<T> entity)
+	public async Task RemoveRangeAsync(IEnumerable<T> entity)
 	{
 		dbSet.RemoveRange(entity);
 	}

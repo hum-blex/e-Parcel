@@ -2,22 +2,24 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using e_Parcel.Models.Domain;
 using Microsoft.EntityFrameworkCore;
 
-namespace e_Parcel.Models;
+namespace e_Parcel.Models.Domain;
 
-[Table("ShoppingSession")]
-public partial class ShoppingSession
+public partial class PaymentDetail
 {
     [Key]
     [Column("id")]
     public int Id { get; set; }
 
-    public int UserId { get; set; }
+    public int OrderId { get; set; }
 
     [Column(TypeName = "decimal(18, 0)")]
-    public decimal Total { get; set; }
+    public decimal Amount { get; set; }
+
+    [StringLength(50)]
+    [Unicode(false)]
+    public string Status { get; set; } = null!;
 
     [Column(TypeName = "datetime")]
     public DateTime CreatedOn { get; set; }
@@ -25,10 +27,11 @@ public partial class ShoppingSession
     [Column(TypeName = "datetime")]
     public DateTime? ModifiedOn { get; set; }
 
-    [InverseProperty("Session")]
-    public virtual ICollection<CartItem> CartItems { get; set; } = new List<CartItem>();
+    [StringLength(50)]
+    [Unicode(false)]
+    public string Provider { get; set; } = null!;
 
-    [ForeignKey("UserId")]
-    [InverseProperty("ShoppingSessions")]
-    public virtual UserLogin User { get; set; } = null!;
+    [ForeignKey("OrderId")]
+    [InverseProperty("PaymentDetails")]
+    public virtual OrderDetail Order { get; set; } = null!;
 }

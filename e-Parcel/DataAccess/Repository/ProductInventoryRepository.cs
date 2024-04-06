@@ -1,5 +1,6 @@
 ﻿using e_Parcel.DataAccess.Repository.IRepository;
-using e_Parcel.Models;
+using e_Parcel.Models.Domain;
+using Microsoft.EntityFrameworkCore;
 
 namespace e_Parcel.DataAccess.Repository;
 
@@ -12,10 +13,15 @@ public class ProductInventoryRepository : Repository<ProductInventory>, IProduct
 	}
 
 
-	public void Update(ProductInventory obj)
+
+	public async Task<ProductInventory> UpdateAsync(int id, ProductInventory obj)
 	{
+		var existing = await _db.ProductInventories.FirstOrDefaultAsync(c => c.Id == id);
+		if (existing == null) return null;
+		existing.Quantity = obj.Quantity;
+		existing.ModifiedOn = DateTime.Now;
 
+		return existing;
 
-		_db.ProductInventories.Update(obj);
 	}
 }

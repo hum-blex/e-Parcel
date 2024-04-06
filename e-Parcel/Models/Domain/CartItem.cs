@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace e_Parcel.Models;
+namespace e_Parcel.Models.Domain;
 
 [Table("CartItem")]
 public partial class CartItem
@@ -23,6 +23,8 @@ public partial class CartItem
 	[Column(TypeName = "datetime")]
 	public DateTime? ModifiedOn { get; set; }
 
+	// Navigation properties
+
 	[ForeignKey("ProductId")]
 	[InverseProperty("CartItems")]
 	[ValidateNever]
@@ -31,6 +33,5 @@ public partial class CartItem
 	[ForeignKey("SessionId")]
 	[InverseProperty("CartItems")]
 	[ValidateNever]
-
 	public virtual ShoppingSession Session { get; set; } = null!;
 }
