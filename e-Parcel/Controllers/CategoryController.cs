@@ -96,7 +96,7 @@ public class CategoryController : ControllerBase
 		var _data = await _unitOfWork.Category.GetAsync(u => u.Id == id);
 		if (_data == null) return NotFound();
 
-		_unitOfWork.Category.RemoveAsync(_data);
+		await _unitOfWork.Category.RemoveAsync(_data);
 		await _unitOfWork.SaveAsync();
 		return Ok(_data);
 	}
@@ -120,7 +120,7 @@ public class CategoryController : ControllerBase
 		}
 		if (categories.Count == 0) return NotFound();
 
-		_unitOfWork.Category.RemoveRangeAsync(categories);
+		await _unitOfWork.Category.RemoveRangeAsync(categories);
 		await _unitOfWork.SaveAsync();
 
 		return Ok();
