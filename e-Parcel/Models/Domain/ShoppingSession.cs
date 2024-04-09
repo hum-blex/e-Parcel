@@ -7,28 +7,20 @@ using Microsoft.EntityFrameworkCore;
 
 namespace e_Parcel.Models;
 
-[Table("ShoppingSession")]
-public partial class ShoppingSession
+public class ShoppingSession
 {
-    [Key]
-    [Column("id")]
-    public int Id { get; set; }
+    public Guid Id { get; set; }
 
-    public int UserId { get; set; }
+    public string? UserId { get; set; } = null;
 
     [Column(TypeName = "decimal(18, 0)")]
     public decimal Total { get; set; }
 
-    [Column(TypeName = "datetime")]
     public DateTime CreatedOn { get; set; }
 
-    [Column(TypeName = "datetime")]
     public DateTime? ModifiedOn { get; set; }
 
-    [InverseProperty("Session")]
-    public virtual ICollection<CartItem> CartItems { get; set; } = new List<CartItem>();
 
     [ForeignKey("UserId")]
-    [InverseProperty("ShoppingSessions")]
-    public virtual UserLogin User { get; set; } = null!;
+    public UserLogin User { get; set; } = null!;
 }

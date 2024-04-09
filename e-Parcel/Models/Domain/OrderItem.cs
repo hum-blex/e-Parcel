@@ -3,29 +3,25 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace e_Parcel.Models.Domain;
 
-[Keyless]
-public partial class OrderItem
+public class OrderItem
 {
-    [Column("id")]
-    public int Id { get; set; }
+    public Guid Id { get; set; }
 
-    public int OrderId { get; set; }
+    public Guid OrderId { get; set; }
 
     public int Quantity { get; set; }
 
-    public int ProductId { get; set; }
+    public Guid ProductId { get; set; }
 
-    [Column(TypeName = "datetime")]
     public DateTime CreatedOn { get; set; }
 
-    [Column(TypeName = "datetime")]
     public DateTime? ModifiedOn { get; set; }
 
     // Navigation properties
 
     [ForeignKey("OrderId")]
-    public virtual OrderDetail Order { get; set; } = null!;
+    public OrderDetail Order { get; set; } = null!;
 
     [ForeignKey("ProductId")]
-    public virtual Product Product { get; set; } = null!;
+    public Product Product { get; set; } = null!;
 }

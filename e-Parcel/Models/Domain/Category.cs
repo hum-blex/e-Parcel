@@ -4,10 +4,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace e_Parcel.Models.Domain;
 
-public partial class Category
+public class Category
 {
-	[Key]
-	public int Id { get; set; }
+	public Guid Id { get; set; }
 
 	[StringLength(50)]
 	[Unicode(false)]
@@ -15,24 +14,17 @@ public partial class Category
 
 	public int DisplayOrder { get; set; }
 
-	[Unicode(false)]
 	public string? Description { get; set; }
 
-	[Column(TypeName = "datetime")]
 	public DateTime CreatedOn { get; set; }
 
-	[Column(TypeName = "datetime")]
 	public DateTime? ModifiedOn { get; set; }
 
-	[Column(TypeName = "datetime")]
 	public DateTime? DeletedOn { get; set; }
 
 	[StringLength(50)]
-	[Unicode(false)]
 	public string? ModifiedBy { get; set; }
 
 	public bool? IsDeleted { get; set; }
 
-	[InverseProperty("Category")]
-	public virtual ICollection<Product> Products { get; set; } = new List<Product>();
 }

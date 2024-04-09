@@ -2,9 +2,7 @@
 {
 	public class ProductInventoryAddDto
 	{
-
 		public int Quantity { get; set; }
-
 
 	}
 }

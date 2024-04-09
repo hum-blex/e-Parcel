@@ -4,7 +4,7 @@ namespace e_Parcel.DataAccess.Repository.IRepository;
 
 public interface ICategoryRepository : IRepository<Category>
 {
-	Task<Category> UpdateAsync(int id, Category obj);
+	Task<Category> UpdateAsync(Guid id, Category obj);
 
 
 

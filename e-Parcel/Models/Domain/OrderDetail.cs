@@ -4,30 +4,23 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace e_Parcel.Models.Domain;
 
-public partial class OrderDetail
+public class OrderDetail
 {
-    [Key]
-    [Column("id")]
-    public int Id { get; set; }
+    public Guid Id { get; set; }
 
-    public int UserId { get; set; }
+    public string? UserId { get; set; } = null;
 
     [Column(TypeName = "decimal(18, 0)")]
     public decimal Total { get; set; }
 
-    public int PaymentId { get; set; }
+    public Guid PaymentId { get; set; }
 
-    [Column(TypeName = "datetime")]
     public DateTime CreatedOn { get; set; }
 
-    [Column(TypeName = "datetime")]
     public DateTime? ModifiedOn { get; set; }
 
-    [InverseProperty("Order")]
-    public virtual ICollection<PaymentDetail> PaymentDetails { get; set; } = new List<PaymentDetail>();
 
     [ForeignKey("UserId")]
-    [InverseProperty("OrderDetails")]
     [ValidateNever]
-    public virtual UserLogin User { get; set; } = null!;
+    public UserLogin User { get; set; } = null!;
 }

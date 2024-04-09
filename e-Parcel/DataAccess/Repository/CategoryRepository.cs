@@ -13,7 +13,7 @@ public class CategoryRepository : Repository<Category>, ICategoryRepository
 	}
 
 
-	public async Task<Category> UpdateAsync(int id, Category obj)
+	public async Task<Category> UpdateAsync(Guid id, Category obj)
 	{
 		var existing = await _db.Categories.FirstOrDefaultAsync(c => c.Id == id);
 		if (existing == null) return null;

@@ -8,30 +8,23 @@ namespace e_Parcel.Models.Domain;
 
 public partial class PaymentDetail
 {
-    [Key]
-    [Column("id")]
-    public int Id { get; set; }
+    public Guid Id { get; set; }
 
-    public int OrderId { get; set; }
+    public Guid OrderId { get; set; }
 
     [Column(TypeName = "decimal(18, 0)")]
     public decimal Amount { get; set; }
 
     [StringLength(50)]
-    [Unicode(false)]
     public string Status { get; set; } = null!;
 
-    [Column(TypeName = "datetime")]
     public DateTime CreatedOn { get; set; }
 
-    [Column(TypeName = "datetime")]
     public DateTime? ModifiedOn { get; set; }
 
     [StringLength(50)]
-    [Unicode(false)]
     public string Provider { get; set; } = null!;
 
     [ForeignKey("OrderId")]
-    [InverseProperty("PaymentDetails")]
-    public virtual OrderDetail Order { get; set; } = null!;
+    public OrderDetail Order { get; set; } = null!;
 }
