@@ -26,7 +26,7 @@ public class CartItemController : ControllerBase
 
 
 	[HttpGet("{id}")]
-	public async Task<ActionResult<CartItem>> Get(int id, CartItem obj)
+	public async Task<ActionResult<CartItem>> Get(Guid id, CartItem obj)
 	{
 		var _data = await _unitOfWork.CartItem.GetAsync(c => c.Id == id);
 		if (_data == null) return NotFound();
@@ -46,7 +46,7 @@ public class CartItemController : ControllerBase
 
 	// PUT api/<CartItemController>/5
 	[HttpPut("{id}")]
-	public async Task<ActionResult<CartItem>> Update(int id, [FromBody] CartItem obj)
+	public async Task<ActionResult<CartItem>> Update(Guid id, [FromBody] CartItem obj)
 	{
 		if (id != obj.Id || obj == null) return BadRequest();
 		_unitOfWork.CartItem.Update(obj);
@@ -55,31 +55,31 @@ public class CartItemController : ControllerBase
 	}
 
 
-	[HttpDelete("{id}")]
-	public async Task<ActionResult<CartItem>> Delete(int id)
-	{
-		var _data = await _unitOfWork.CartItem.GetAsync(c => c.Id == id);
-		if (_data == null) return NotFound();
+	//[HttpDelete("{id}")]
+	//public async Task<ActionResult<CartItem>> Delete(Guid id)
+	//{
+	//	var _data = await _unitOfWork.CartItem.GetAsync(c => c.Id == id);
+	//	if (_data == null) return NotFound();
 
-		_unitOfWork.CartItem.RemoveAsync(_data);
-		await _unitOfWork.SaveAsync();
-		return Ok();
-	}
+	//	_unitOfWork.CartItem.RemoveAsync(_data);
+	//	await _unitOfWork.SaveAsync();
+	//	return Ok();
+	//}
 
-	[HttpDelete("range")]
-	public async Task<ActionResult<CartItem>> DeleteRange(IEnumerable<int> ids)
-	{
-		var _items = new List<CartItem>();
+	//[HttpDelete("range")]
+	//public async Task<ActionResult<CartItem>> DeleteRange(IEnumerable<int> ids)
+	//{
+	//	var _items = new List<CartItem>();
 
-		foreach (int id in ids)
-		{
-			var _item = await _unitOfWork.CartItem.GetAsync(c => c.Id == id);
-			if (_item != null) _items.Add(_item);
-		}
-		if (_items.Count == 0) return NotFound();
+	//	foreach (int id in ids)
+	//	{
+	//		var _item = await _unitOfWork.CartItem.GetAsync(c => c.Id == id);
+	//		if (_item != null) _items.Add(_item);
+	//	}
+	//	if (_items.Count == 0) return NotFound();
 
-		_unitOfWork.CartItem.RemoveRangeAsync(_items);
-		await _unitOfWork.SaveAsync();
-		return Ok(_items);
-	}
+	//	_unitOfWork.CartItem.RemoveRangeAsync(_items);
+	//	await _unitOfWork.SaveAsync();
+	//	return Ok(_items);
+	//}
 }

@@ -14,7 +14,7 @@ public class ProductInventoryRepository : Repository<ProductInventory>, IProduct
 
 
 
-	public async Task<ProductInventory> UpdateAsync(int id, ProductInventory obj)
+	public async Task<ProductInventory> UpdateAsync(Guid id, ProductInventory obj)
 	{
 		var existing = await _db.ProductInventories.FirstOrDefaultAsync(c => c.Id == id);
 		if (existing == null) return null;

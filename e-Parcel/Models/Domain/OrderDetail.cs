@@ -8,7 +8,7 @@ public class OrderDetail
 {
     public Guid Id { get; set; }
 
-    public string? UserId { get; set; } = null;
+    public Guid UserId { get; set; }
 
     [Column(TypeName = "decimal(18, 0)")]
     public decimal Total { get; set; }

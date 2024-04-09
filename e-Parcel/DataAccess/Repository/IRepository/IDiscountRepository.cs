@@ -6,5 +6,4 @@ public interface IDiscountRepository : IRepository<Discount>
 {
 	void Update(Discount obj);
 
-	void UpdateDelete(int id);
 }

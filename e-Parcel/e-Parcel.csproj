@@ -27,6 +27,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="DataAccess\Repository\" />
     <Folder Include="Models\Domain\" />
     <Folder Include="Models\DTOs\Category\" />
     <Folder Include="Models\DTOs\ProductInventory\" />

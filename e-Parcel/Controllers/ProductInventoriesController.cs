@@ -30,7 +30,7 @@ public class ProductInventoriesController : ControllerBase
 
 	// GET: ProductInventories/5
 	[HttpGet("{id}")]
-	public async Task<ActionResult<ProductInventory>> GetProductInventory(int id)
+	public async Task<ActionResult<ProductInventory>> GetProductInventory(Guid id)
 	{
 		var _data = await _unitOfWork.ProductInventory.GetAsync(u => u.Id == id);
 		if (_data == null) return NotFound();
@@ -39,7 +39,7 @@ public class ProductInventoriesController : ControllerBase
 
 	// PUT: ProductInventories/5
 	[HttpPut("{id}")]
-	public async Task<ActionResult<ProductInventory>> Update(int id, ProductInventoryUpdateDto inventory)
+	public async Task<ActionResult<ProductInventory>> Update(Guid id, ProductInventoryUpdateDto inventory)
 	{
 		if (id != inventory.Id || inventory == null) return BadRequest();
 
@@ -63,32 +63,32 @@ public class ProductInventoriesController : ControllerBase
 	}
 
 	// DELETE: ProductInventories/5
-	[HttpDelete("{id}")]
-	public async Task<ActionResult<ProductInventory>> Delete(int id)
-	{
-		var _data = await _unitOfWork.ProductInventory.GetAsync(u => u.Id == id);
-		if (_data == null) return NotFound();
+	//[HttpDelete("{id}")]
+	//public async Task<ActionResult<ProductInventory>> Delete(int id)
+	//{
+	//	var _data = await _unitOfWork.ProductInventory.GetAsync(u => u.Id == id);
+	//	if (_data == null) return NotFound();
 
-		_unitOfWork.ProductInventory.RemoveAsync(_data);
-		await _unitOfWork.SaveAsync();
-		return Ok(_data);
-	}
+	//	_unitOfWork.ProductInventory.RemoveAsync(_data);
+	//	await _unitOfWork.SaveAsync();
+	//	return Ok(_data);
+	//}
 
-	[HttpDelete("range")]
-	public async Task<ActionResult<ProductInventory>> DeleteRange([FromBody] IEnumerable<int> ids)
-	{
-		var productInventories = new List<ProductInventory>();
+	//[HttpDelete("range")]
+	//public async Task<ActionResult<ProductInventory>> DeleteRange([FromBody] IEnumerable<int> ids)
+	//{
+	//	var productInventories = new List<ProductInventory>();
 
-		foreach (var id in ids)
-		{
-			var productInventory = await _unitOfWork.ProductInventory.GetAsync(u => u.Id == id);
-			if (productInventory != null) productInventories.Add(productInventory);
-		}
-		if (productInventories.Count == 0) return NotFound();
+	//	foreach (var id in ids)
+	//	{
+	//		var productInventory = await _unitOfWork.ProductInventory.GetAsync(u => u.Id == id);
+	//		if (productInventory != null) productInventories.Add(productInventory);
+	//	}
+	//	if (productInventories.Count == 0) return NotFound();
 
-		_unitOfWork.ProductInventory.RemoveRangeAsync(productInventories);
-		await _unitOfWork.SaveAsync();
+	//	_unitOfWork.ProductInventory.RemoveRangeAsync(productInventories);
+	//	await _unitOfWork.SaveAsync();
 
-		return Ok(productInventories);
-	}
+	//	return Ok(productInventories);
+	//}
 }

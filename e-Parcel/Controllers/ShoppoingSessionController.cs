@@ -19,16 +19,16 @@ namespace e_Parcel.Controllers
         [HttpGet]
         public IActionResult GetAll()
         {
-            var _data = _unitOfWork.ShoppingSession.GetAll();
+            var _data = _unitOfWork.ShoppingSession.GetAllAsync();
             if(!ModelState.IsValid) return BadRequest(ModelState);
             return Ok(_data);
         }
 
         
         [HttpGet("{id}")]
-        public IActionResult Get(int id, ShoppingSession obj)
+        public IActionResult Get(Guid id, ShoppingSession obj)
         {
-            var _data = _unitOfWork.ShoppingSession.Get(c => c.Id == id);
+            var _data = _unitOfWork.ShoppingSession.GetAsync(c => c.Id == id);
             if (_data == null) return NotFound();
             return Ok(_data);
         }
@@ -39,48 +39,48 @@ namespace e_Parcel.Controllers
         {
             if(obj == null) return BadRequest("Shopping Session is null");
 
-            _unitOfWork.ShoppingSession.Add(obj);
-            _unitOfWork.Save();
+            _unitOfWork.ShoppingSession.AddAsync(obj);
+            _unitOfWork.SaveAsync();
             return CreatedAtAction(nameof(Get), new { id = obj.Id }, obj);
         }
 
         [HttpPut("{id}")]
-        public IActionResult Update(int id, [FromBody] ShoppingSession obj)
+        public IActionResult Update(Guid id, [FromBody] ShoppingSession obj)
         {
             if (id != obj.Id || obj == null) return BadRequest();
 
             _unitOfWork.ShoppingSession.Update(obj);
-            _unitOfWork.Save();
+            _unitOfWork.SaveAsync();
             return Ok();
         }
 
         
-        [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
-        {
-            var _data = _unitOfWork.ShoppingSession.Get(c => c.Id == id);
-            if(_data == null) return NotFound();
+        //[HttpDelete("{id}")]
+        //public IActionResult Delete(int id)
+        //{
+        //    var _data = _unitOfWork.ShoppingSession.Get(c => c.Id == id);
+        //    if(_data == null) return NotFound();
 
-            _unitOfWork.ShoppingSession.Remove(_data);
-            _unitOfWork.Save();
-            return Ok();
-        }
+        //    _unitOfWork.ShoppingSession.Remove(_data);
+        //    _unitOfWork.Save();
+        //    return Ok();
+        //}
 
-        [HttpDelete("range")]
-        public IActionResult DeleteRange(IEnumerable<int> ids)
-        {
-            var _items = new List<ShoppingSession>();
+        //[HttpDelete("range")]
+        //public IActionResult DeleteRange(IEnumerable<int> ids)
+        //{
+        //    var _items = new List<ShoppingSession>();
 
-            foreach(int id in ids)
-            {
-                var _item = _unitOfWork.ShoppingSession.Get(c => c.Id == id);
-                if(_item != null) _items.Add(_item);
-            }
-            if(_items.Count == 0) return NotFound();
+        //    foreach(int id in ids)
+        //    {
+        //        var _item = _unitOfWork.ShoppingSession.Get(c => c.Id == id);
+        //        if(_item != null) _items.Add(_item);
+        //    }
+        //    if(_items.Count == 0) return NotFound();
 
-            _unitOfWork.ShoppingSession.RemoveRange(_items);
-            _unitOfWork.Save();
-            return Ok(_items);
-        }
+        //    _unitOfWork.ShoppingSession.RemoveRange(_items);
+        //    _unitOfWork.Save();
+        //    return Ok(_items);
+        //}
     }
 }

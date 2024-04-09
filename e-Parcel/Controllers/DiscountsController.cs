@@ -26,7 +26,7 @@ public class DiscountsController : ControllerBase
 
 
 	[HttpGet("{id}")]
-	public async Task<ActionResult<Discount>> GetDiscount(int id)
+	public async Task<ActionResult<Discount>> GetDiscount(Guid id)
 	{
 		var _data = await _unitOfWork.Discount.GetAsync(c => c.Id == id);
 		if (_data == null) return NotFound();
@@ -43,20 +43,20 @@ public class DiscountsController : ControllerBase
 		return CreatedAtAction(nameof(GetDiscount), new { id = obj.Id }, obj);
 	}
 
-	[HttpDelete("{id}")]
-	public async Task<ActionResult<Discount>> Delete(int id)
-	{
-		var _data = await _unitOfWork.Discount.GetAsync(c => c.Id == id);
-		if (_data == null) return NotFound();
+	//[HttpDelete("{id}")]
+	//public async Task<ActionResult<Discount>> Delete(int id)
+	//{
+	//	var _data = await _unitOfWork.Discount.GetAsync(c => c.Id == id);
+	//	if (_data == null) return NotFound();
 
-		_unitOfWork.Discount.RemoveAsync(_data);
-		await _unitOfWork.SaveAsync();
-		return NoContent();
-	}
+	//	_unitOfWork.Discount.RemoveAsync(_data);
+	//	await _unitOfWork.SaveAsync();
+	//	return NoContent();
+	//}
 
 
 	[HttpPut("{id}")]
-	public async Task<ActionResult<Discount>> UpdateDiscounts(int id, [FromBody] Discount obj)
+	public async Task<ActionResult<Discount>> UpdateDiscounts(Guid id, [FromBody] Discount obj)
 	{
 		if (id != obj.Id || obj == null) return BadRequest();
 
@@ -65,18 +65,18 @@ public class DiscountsController : ControllerBase
 		return NoContent();
 	}
 
-	[HttpDelete("range")]
-	public async Task<ActionResult<Discount>> DeleteRange(IEnumerable<int> ids)
-	{
-		var discounts = new List<Discount>();
-		foreach (int id in ids)
-		{
-			var discount = await _unitOfWork.Discount.GetAsync(c => c.Id == id);
-			if (discount != null) discounts.Add(discount);
-		}
-		if (discounts.Count == 0) return NotFound();
-		_unitOfWork.Discount.RemoveRangeAsync(discounts);
-		await _unitOfWork.SaveAsync();
-		return Ok(discounts);
-	}
+	//[HttpDelete("range")]
+	//public async Task<ActionResult<Discount>> DeleteRange(IEnumerable<Guid> ids)
+	//{
+	//	var discounts = new List<Discount>();
+	//	foreach (int id in ids)
+	//	{
+	//		var discount = await _unitOfWork.Discount.GetAsync(c => c.Id == id);
+	//		if (discount != null) discounts.Add(discount);
+	//	}
+	//	if (discounts.Count == 0) return NotFound();
+	//	_unitOfWork.Discount.RemoveRangeAsync(discounts);
+	//	await _unitOfWork.SaveAsync();
+	//	return Ok(discounts);
+	//}
 }

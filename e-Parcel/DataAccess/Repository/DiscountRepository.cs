@@ -17,12 +17,4 @@ public class DiscountRepository : Repository<Discount>, IDiscountRepository
 		_db.Discounts.Update(obj);
 	}
 
-	public void UpdateDelete(int id)
-	{
-		var objFromDb = _db.Discounts.FirstOrDefault(c => c.Id == id);
-		if (objFromDb != null) objFromDb.IsDeleted = true;
-
-
-
-	}
 }

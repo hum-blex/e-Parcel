@@ -59,7 +59,7 @@ public class CategoryController : ControllerBase
 		await _unitOfWork.Category.AddAsync(_data);
 		await _unitOfWork.SaveAsync();
 		var categoryDTO = _mapper.Map<CategoryDto>(_data);
-		return CreatedAtAction(nameof(Get), new { id = categoryDTO.Id }, categoryDTO);
+		return CreatedAtAction(nameof(GetById), new { id = categoryDTO.Id }, categoryDTO);
 	}
 
 	[HttpPut]

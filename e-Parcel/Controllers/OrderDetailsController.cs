@@ -24,7 +24,7 @@ public class OrderDetailsController : ControllerBase
 
 
 	[HttpGet("{id}")]
-	public async Task<ActionResult<OrderDetail>> Get(int id)
+	public async Task<ActionResult<OrderDetail>> Get(Guid id)
 	{
 		var _data = await _unitOfWork.OrderDetail.GetAsync(c => c.Id == id);
 		if (_data == null) return NotFound();
@@ -43,7 +43,7 @@ public class OrderDetailsController : ControllerBase
 	}
 
 	[HttpPut("{id}")]
-	public async Task<ActionResult<OrderDetail>> Update(int id, [FromBody] OrderDetail obj)
+	public async Task<ActionResult<OrderDetail>> Update(Guid id, [FromBody] OrderDetail obj)
 	{
 		if (id != obj.Id || obj == null) return BadRequest();
 
@@ -53,32 +53,32 @@ public class OrderDetailsController : ControllerBase
 	}
 
 
-	[HttpDelete("{id}")]
-	public async Task<ActionResult<OrderDetail>> Delete(int id)
-	{
-		var _data = await _unitOfWork.OrderDetail.GetAsync(c => c.Id == id);
-		if (_data == null) return NotFound();
+	//[HttpDelete("{id}")]
+	//public async Task<ActionResult<OrderDetail>> Delete(int id)
+	//{
+	//	var _data = await _unitOfWork.OrderDetail.GetAsync(c => c.Id == id);
+	//	if (_data == null) return NotFound();
 
-		_unitOfWork.OrderDetail.RemoveAsync(_data);
-		await _unitOfWork.SaveAsync();
-		return Ok();
-	}
+	//	_unitOfWork.OrderDetail.RemoveAsync(_data);
+	//	await _unitOfWork.SaveAsync();
+	//	return Ok();
+	//}
 
-	[HttpDelete("range")]
-	public async Task<ActionResult<OrderDetail>> DeleteRange(IEnumerable<int> ids)
-	{
-		var _items = new List<OrderDetail>();
+	//[HttpDelete("range")]
+	//public async Task<ActionResult<OrderDetail>> DeleteRange(IEnumerable<int> ids)
+	//{
+	//	var _items = new List<OrderDetail>();
 
-		foreach (int id in ids)
-		{
-			var _item = await _unitOfWork.OrderDetail.GetAsync(c => c.Id == id);
-			if (_item != null) _items.Add(_item);
-		}
-		if (_items.Count == 0) return NotFound();
+	//	foreach (int id in ids)
+	//	{
+	//		var _item = await _unitOfWork.OrderDetail.GetAsync(c => c.Id == id);
+	//		if (_item != null) _items.Add(_item);
+	//	}
+	//	if (_items.Count == 0) return NotFound();
 
-		_unitOfWork.OrderDetail.RemoveRangeAsync(_items);
-		await _unitOfWork.SaveAsync();
-		return Ok(_items);
-	}
+	//	_unitOfWork.OrderDetail.RemoveRangeAsync(_items);
+	//	await _unitOfWork.SaveAsync();
+	//	return Ok(_items);
+	//}
 }
 

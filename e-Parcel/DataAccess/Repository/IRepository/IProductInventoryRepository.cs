@@ -4,5 +4,5 @@ namespace e_Parcel.DataAccess.Repository.IRepository;
 
 public interface IProductInventoryRepository : IRepository<ProductInventory>
 {
-	Task<ProductInventory> UpdateAsync(int id, ProductInventory obj);
+	Task<ProductInventory> UpdateAsync(Guid id, ProductInventory obj);
 }

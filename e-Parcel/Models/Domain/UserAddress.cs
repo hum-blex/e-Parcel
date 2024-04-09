@@ -8,7 +8,7 @@ namespace e_Parcel.Models;
 
 public class UserAddress
 {
-    public int Id { get; set; }
+    public Guid Id { get; set; }
 
     public Guid UserId { get; set; }
 
