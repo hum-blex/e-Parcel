@@ -12,8 +12,8 @@ using e_Parcel.DataAccess;
 namespace e_Parcel.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240409053755_Initial Migration")]
-    partial class InitialMigration
+    [Migration("20240409055908_initial migration")]
+    partial class initialmigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

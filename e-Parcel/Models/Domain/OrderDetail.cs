@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
-using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace e_Parcel.Models.Domain;
@@ -23,4 +22,8 @@ public class OrderDetail
     [ForeignKey("UserId")]
     [ValidateNever]
     public UserLogin User { get; set; } = null!;
+
+    [ForeignKey("PaymentId")]
+    [ValidateNever]
+    public PaymentDetail Payment { get; set; } = null!;
 }
