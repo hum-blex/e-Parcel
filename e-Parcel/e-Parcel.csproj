@@ -26,4 +26,10 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Models\Domain\" />
+    <Folder Include="Models\DTOs\Category\" />
+    <Folder Include="Models\DTOs\ProductInventory\" />
+  </ItemGroup>
+
 </Project>
