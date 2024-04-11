@@ -1,4 +1,5 @@
 ﻿using e_Parcel.DataAccess.Repository.IRepository;
+using Microsoft.EntityFrameworkCore;
 using e_Parcel.Models.Domain;
 
 namespace e_Parcel.DataAccess.Repository;
@@ -10,18 +11,19 @@ public class CartItemRepository : Repository<CartItem>, ICartItemRepository
 	{
 		_db = db;
 	}
-	public void Update(CartItem obj)
-	{
-		var existingDiscount = _db.CartItems.FirstOrDefault(x => x.Id == obj.Id);
 
-		existingDiscount.Quantity = obj.Quantity;
-		existingDiscount.Product = obj.Product;
-		existingDiscount.SessionId = obj.SessionId;
-		existingDiscount.ProductId = obj.ProductId;
-		existingDiscount.Session = obj.Session;
+    public async Task<CartItem> UpdateAsync(Guid id, CartItem obj)
+    {
+        var existingCartItem = await _db.CartItems.FirstOrDefaultAsync(x => x.Id == obj.Id);
+        if (existingCartItem == null) return null;
+        existingCartItem.Quantity = obj.Quantity;
+        existingCartItem.Product = obj.Product;
+        existingCartItem.SessionId = obj.SessionId;
+        existingCartItem.ProductId = obj.ProductId;
+        existingCartItem.Session = obj.Session;
+        existingCartItem.ModifiedOn = DateTime.Now;
 
 
-		_db.CartItems.Update(obj);
-	}
-
+        return existingCartItem;
+    }
 }

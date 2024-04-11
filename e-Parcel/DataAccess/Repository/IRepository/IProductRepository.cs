@@ -3,5 +3,5 @@ namespace e_Parcel.DataAccess.Repository.IRepository;
 
 public interface IProductRepository : IRepository<Product>
 {
-	void Update(Product obj);
+	Task<Product> UpdateAsync(Guid id, Product obj);
 }

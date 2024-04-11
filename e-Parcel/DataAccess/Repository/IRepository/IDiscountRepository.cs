@@ -4,6 +4,6 @@ namespace e_Parcel.DataAccess.Repository.IRepository;
 
 public interface IDiscountRepository : IRepository<Discount>
 {
-	void Update(Discount obj);
+	Task<Discount?> UpdateAsync(Guid id, Discount obj);
 
 }

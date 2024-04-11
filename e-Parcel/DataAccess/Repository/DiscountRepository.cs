@@ -11,10 +11,19 @@ public class DiscountRepository : Repository<Discount>, IDiscountRepository
 		_db = db;
 	}
 
-	public void Update(Discount obj)
-	{
 
-		_db.Discounts.Update(obj);
-	}
+    public async Task<Discount?> UpdateAsync(Guid id, Discount obj)
+    {
+        var existingDiscount = await _db.Discounts.FindAsync(id);
+		if (existingDiscount == null) return null;
 
+		existingDiscount.Name = obj.Name;
+		existingDiscount.Description = obj.Description;
+		existingDiscount.DiscountPercentage = obj.DiscountPercentage;
+		existingDiscount.ModifiedBy = obj.ModifiedBy;
+		existingDiscount.ModifiedOn = DateTime.Now;
+		existingDiscount.Active = obj.Active;
+
+		return existingDiscount;
+    }
 }

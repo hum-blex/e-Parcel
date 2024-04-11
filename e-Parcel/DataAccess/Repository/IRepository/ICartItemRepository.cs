@@ -3,5 +3,5 @@ namespace e_Parcel.DataAccess.Repository.IRepository;
 
 public interface ICartItemRepository : IRepository<CartItem>
 {
-	void Update(CartItem obj);
+	Task<CartItem> UpdateAsync(Guid id, CartItem obj);
 }

@@ -3,6 +3,7 @@ using AutoMapper;
 using e_Parcel.DataAccess.Repository.IRepository;
 using e_Parcel.Models.Domain;
 using e_Parcel.Models.DTOs;
+using e_Parcel.Models.DTOs.Categories;
 using Microsoft.AspNetCore.Mvc;
 
 namespace e_Parcel.Controllers;
@@ -24,7 +25,7 @@ public class CategoryController : ControllerBase
 	[ProducesResponseType(StatusCodes.Status400BadRequest)]
 	[ProducesResponseType(StatusCodes.Status500InternalServerError)]
 
-	public async Task<ActionResult<Category>> GetAll()
+	public async Task<IActionResult> GetAll()
 	{
 		var _data = await _unitOfWork.Category.GetAllAsync();
 		var nonDeletedData = _data.Where(d => d.IsDeleted == false).ToList();
@@ -50,14 +51,16 @@ public class CategoryController : ControllerBase
 	[ProducesResponseType(StatusCodes.Status400BadRequest)]
 	[ProducesResponseType(StatusCodes.Status500InternalServerError)]
 
-	public async Task<ActionResult<Category>> Create([FromBody] CategoryAddDto obj)
+	public async Task<IActionResult> Create([FromBody] CategoryAddDto obj)
 	{
 		if (obj == null) return BadRequest("Category is Null");
 		// Map DTO to Domain Model
 		var _data = _mapper.Map<Category>(obj);
 		_data.CreatedOn = DateTime.Now;
+
 		await _unitOfWork.Category.AddAsync(_data);
 		await _unitOfWork.SaveAsync();
+
 		var categoryDTO = _mapper.Map<CategoryDto>(_data);
 		return CreatedAtAction(nameof(GetById), new { id = categoryDTO.Id }, categoryDTO);
 	}
@@ -69,13 +72,17 @@ public class CategoryController : ControllerBase
 	[ProducesResponseType(StatusCodes.Status400BadRequest)]
 	[ProducesResponseType(StatusCodes.Status500InternalServerError)]
 
-	public async Task<ActionResult<Category>> Update([FromRoute]Guid id, [FromBody] CategoryUpdateDto obj)
+	public async Task<IActionResult> Update([FromRoute]Guid id, [FromBody] CategoryUpdateDto obj)
 	{
 		if (obj.Id != id || obj == null) return BadRequest();
+
 		Category _data = _mapper.Map<Category>(obj);
-		await _unitOfWork.Category.UpdateAsync(id, _data);
+
+		_data = await _unitOfWork.Category.UpdateAsync(id, _data);
+		if(_data == null) return NotFound();
+
 		await _unitOfWork.SaveAsync();
-		return Ok();
+		return Ok(_mapper.Map<CategoryDto>(_data));
 	}
 
 	//[HttpDelete("{id}")]

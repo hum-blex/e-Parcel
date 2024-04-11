@@ -1,5 +1,7 @@
-﻿using e_Parcel.DataAccess.Repository.IRepository;
+﻿using AutoMapper;
+using e_Parcel.DataAccess.Repository.IRepository;
 using e_Parcel.Models.Domain;
+using e_Parcel.Models.DTOs.OrderItems;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -11,9 +13,12 @@ namespace e_Parcel.Controllers
     public class OrderItemController : ControllerBase
     {
         private readonly IUnitOfWork _unitOfWork;
-        public OrderItemController(IUnitOfWork unitOfWork)
+        private readonly IMapper _mapper;
+
+        public OrderItemController(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
+            _mapper = mapper;
         }
         
         [HttpGet]
@@ -21,37 +26,51 @@ namespace e_Parcel.Controllers
         {
             var _data = _unitOfWork.OrderItem.GetAllAsync();
             if(!ModelState.IsValid) return BadRequest(ModelState);
-            return Ok(_data);
+
+            return Ok(_mapper.Map<List<OrderItemDto>>(_data));
         }
 
         
-        [HttpGet("{id}")]
-        public IActionResult Get(Guid id, OrderItem obj)
+        [HttpGet]
+        [Route("{id:guid}")]
+        public IActionResult Get([FromRoute] Guid id)
         {
             var _data = _unitOfWork.OrderItem.GetAsync(c => c.Id == id);
             if (_data == null) return NotFound();
-            return Ok(_data);
+
+            return Ok(_mapper.Map<OrderItemDto>(_data));
         }
 
         
         [HttpPost]
-        public IActionResult Create([FromBody] OrderItem obj)
+        public async Task<IActionResult> CreateAsync([FromBody] OrderItemAddDto obj)
         {
             if(obj == null) return BadRequest("Order Item is null");
 
-            _unitOfWork.OrderItem.AddAsync(obj);
-            _unitOfWork.SaveAsync();
-            return CreatedAtAction(nameof(Get), new { id = obj.Id }, obj);
+            var OrderItemDomain = _mapper.Map<OrderItem>(obj);
+            OrderItemDomain.CreatedOn = DateTime.Now;
+
+            await _unitOfWork.OrderItem.AddAsync(OrderItemDomain);
+            await _unitOfWork.SaveAsync();
+
+            var OrderItemDTO = _mapper.Map<OrderItemDto>(OrderItemDomain);
+
+            return CreatedAtAction(nameof(Get), new { id = OrderItemDTO.Id }, OrderItemDTO);
         }
 
-        [HttpPut("{id}")]
-        public IActionResult Update(Guid id, [FromBody] OrderItem obj)
+        [HttpPut]
+        [Route("{id:guid}")]
+        public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] OrderItemUpdateDto obj)
         {
             if (id != obj.Id || obj == null) return BadRequest();
+            var OrderItemDomain = _mapper.Map<OrderItem>(obj);
 
-            _unitOfWork.OrderItem.Update(obj);
-            _unitOfWork.SaveAsync();
-            return Ok();
+            OrderItemDomain = await _unitOfWork.OrderItem.UpdateAsync(id, OrderItemDomain);
+            if(OrderItemDomain == null) return NotFound();
+
+            await _unitOfWork.SaveAsync();
+            
+            return Ok(_mapper.Map<OrderItemDto>(OrderItemDomain));
         }
 
         

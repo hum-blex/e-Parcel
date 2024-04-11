@@ -1,5 +1,7 @@
-﻿using e_Parcel.DataAccess.Repository.IRepository;
+﻿using AutoMapper;
+using e_Parcel.DataAccess.Repository.IRepository;
 using e_Parcel.Models.Domain;
+using e_Parcel.Models.DTOs.Products;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -11,47 +13,66 @@ namespace e_Parcel.Controllers
     public class ProductController : ControllerBase
     {
         private readonly IUnitOfWork _unitOfWork;
-        public ProductController(IUnitOfWork unitOfWork)
+        private readonly IMapper _mapper;
+
+        public ProductController(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
+            _mapper = mapper;
         }
         
         [HttpGet]
-        public IActionResult GetAll()
+        public async Task<IActionResult> GetAll()
         {
-            var _data = _unitOfWork.Product.GetAllAsync();
+            var _data = await _unitOfWork.Product.GetAllAsync();
             if(!ModelState.IsValid) return BadRequest(ModelState);
-            return Ok(_data);
+
+            return Ok(_mapper.Map<List<ProductDto>>(_data));
         }
 
-        
-        [HttpGet("{id}")]
-        public IActionResult Get(Guid id, Product obj)
+
+        [HttpGet]
+        [Route("{id:guid}")]
+        public async Task<IActionResult> GetByID([FromRoute] Guid id)
         {
-            var _data = _unitOfWork.Product.GetAsync(c => c.Id == id);
+            var _data = await _unitOfWork.Product.GetAsync(c => c.Id == id);
             if (_data == null) return NotFound();
-            return Ok(_data);
+
+            return Ok(_mapper.Map<ProductDto>(_data));
         }
 
         
         [HttpPost]
-        public IActionResult Create([FromBody] Product obj)
+        public async Task<IActionResult> Create([FromBody] ProductAddDto obj)
         {
             if(obj == null) return BadRequest("Product is null");
 
-            _unitOfWork.Product.AddAsync(obj);
-            _unitOfWork.SaveAsync();
-            return CreatedAtAction(nameof(Get), new { id = obj.Id }, obj);
+            var ProductDomain = _mapper.Map<Product>(obj);
+            ProductDomain.CreatedOn = DateTime.Now;
+
+            await _unitOfWork.Product.AddAsync(ProductDomain);
+            await _unitOfWork.SaveAsync();
+
+            var ProductDTO = _mapper.Map<ProductDto>(ProductDomain);
+
+            return CreatedAtAction(nameof(GetByID), new { id = ProductDTO.Id }, ProductDTO);
         }
 
-        [HttpPut("{id}")]
-        public IActionResult Update(Guid id, [FromBody] Product obj)
+        [HttpPut]
+        [Route("{id:guid}")]
+        public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] ProductUpdateDto obj)
         {
             if (id != obj.Id || obj == null) return BadRequest();
 
-            _unitOfWork.Product.Update(obj);
-            _unitOfWork.SaveAsync();
-            return Ok();
+            var ProductDomain = _mapper.Map<Product>(obj);
+
+            ProductDomain = await _unitOfWork.Product.UpdateAsync(id, ProductDomain);
+            if(ProductDomain == null) return NotFound();
+
+            await _unitOfWork.SaveAsync();
+
+
+            return Ok(_mapper.Map<ProductDto>(ProductDomain));
         }
 
         

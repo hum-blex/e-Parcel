@@ -1,7 +1,8 @@
 ﻿using e_Parcel.Models;
+using e_Parcel.Models.Domain;
 namespace e_Parcel.DataAccess.Repository.IRepository;
 
 public interface IShoppingSessionRepository : IRepository<ShoppingSession>
 {
-	void Update(ShoppingSession obj);
+    Task<ShoppingSession> UpdateAsync(Guid id, ShoppingSession obj);
 }

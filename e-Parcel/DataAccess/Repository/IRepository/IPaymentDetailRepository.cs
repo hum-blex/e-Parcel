@@ -3,5 +3,5 @@ namespace e_Parcel.DataAccess.Repository.IRepository;
 
 public interface IPaymentDetailRepository : IRepository<PaymentDetail>
 {
-	void Update(PaymentDetail obj);
+	Task<PaymentDetail> UpdateAsync(Guid id, PaymentDetail obj);
 }

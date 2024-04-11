@@ -10,8 +10,16 @@ public class OrderDetailRepository : Repository<OrderDetail>, IOrderDetailReposi
 	{
 		_db = db;
 	}
-	public void Update(OrderDetail obj)
-	{
-		_db.OrderDetails.Update(obj);
-	}
+
+    public async Task<OrderDetail> UpdateAsync(Guid id ,OrderDetail obj)
+    {
+        var exisitngOrderDetail = await _db.OrderDetails.FindAsync(id);
+		if (exisitngOrderDetail == null) return null;
+
+		exisitngOrderDetail.Total = obj.Total;
+		exisitngOrderDetail.PaymentId = obj.PaymentId;
+		exisitngOrderDetail.ModifiedOn = DateTime.Now;
+
+		return exisitngOrderDetail;
+    }
 }

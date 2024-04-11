@@ -10,8 +10,23 @@ public class ProductRepository : Repository<Product>, IProductRepository
 	{
 		_db = db;
 	}
-	public void Update(Product obj)
-	{
-		_db.Products.Update(obj);
-	}
+
+    public async Task<Product> UpdateAsync(Guid id, Product obj)
+    {
+        var existingProduct = await _db.Products.FindAsync(id);
+		if (existingProduct == null) return null;
+
+		existingProduct.Name = obj.Name;
+		existingProduct.Description = obj.Description;
+		existingProduct.Price = obj.Price;
+		existingProduct.ModifiedBy = obj.ModifiedBy;
+		existingProduct.ModifiedOn = DateTime.Now;
+		existingProduct.Sku = obj.Sku;
+		existingProduct.DiscountId = obj.DiscountId;
+		existingProduct.InventoryId = obj.InventoryId;
+		existingProduct.CategoryId = obj.CategoryId;
+		existingProduct.ImageUrl = obj.ImageUrl;
+
+		return existingProduct;
+    }
 }
