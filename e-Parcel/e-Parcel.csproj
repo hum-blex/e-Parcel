@@ -9,6 +9,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Models\DTOs\Category\**" />
+    <Compile Remove="Models\DTOs\ProductInventory\**" />
+    <Content Remove="Models\DTOs\Category\**" />
+    <Content Remove="Models\DTOs\ProductInventory\**" />
+    <EmbeddedResource Remove="Models\DTOs\Category\**" />
+    <EmbeddedResource Remove="Models\DTOs\ProductInventory\**" />
+    <None Remove="Models\DTOs\Category\**" />
+    <None Remove="Models\DTOs\ProductInventory\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AutoMapper" Version="13.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Components.QuickGrid.EntityFrameworkAdapter" Version="8.0.3" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.0" />
@@ -29,8 +40,6 @@
   <ItemGroup>
     <Folder Include="DataAccess\Repository\" />
     <Folder Include="Models\Domain\" />
-    <Folder Include="Models\DTOs\Categories\" />
-    <Folder Include="Models\DTOs\ProductInventories\" />
   </ItemGroup>
 
 </Project>
