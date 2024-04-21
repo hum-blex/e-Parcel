@@ -12,13 +12,13 @@ namespace e_Parcel.Controllers;
 public class DiscountsController : ControllerBase
 {
 	private readonly IUnitOfWork _unitOfWork;
-    private readonly IMapper _mapper;
+	private readonly IMapper _mapper;
 
-    public DiscountsController(IUnitOfWork unitOfWork, IMapper mapper)
+	public DiscountsController(IUnitOfWork unitOfWork, IMapper mapper)
 	{
 		_unitOfWork = unitOfWork;
-        _mapper = mapper;
-    }
+		_mapper = mapper;
+	}
 
 	[HttpGet]
 	public async Task<IActionResult> GetDiscounts()
@@ -32,13 +32,13 @@ public class DiscountsController : ControllerBase
 	}
 
 
-	[HttpGet)]
+	[HttpGet]
 	[Route("{id:guid}")]
 	public async Task<IActionResult> GetDiscountByID([FromRoute] Guid id)
 	{
 		var _data = await _unitOfWork.Discount.GetAsync(c => c.Id == id);
 
-        if (_data == null) return NotFound();
+		if (_data == null) return NotFound();
 
 		return Ok(_mapper.Map<DiscountDto>(_data));
 	}
@@ -80,7 +80,7 @@ public class DiscountsController : ControllerBase
 		var discountDomain = _mapper.Map<Discount>(obj);
 
 		discountDomain = await _unitOfWork.Discount.UpdateAsync(id, discountDomain);
-		if(discountDomain == null) return NotFound();
+		if (discountDomain == null) return NotFound();
 
 		await _unitOfWork.SaveAsync();
 		return Ok(_mapper.Map<DiscountDto>(discountDomain));
