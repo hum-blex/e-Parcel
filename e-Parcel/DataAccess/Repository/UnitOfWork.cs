@@ -15,7 +15,6 @@ public class UnitOfWork : IUnitOfWork
 	public IProductRepository Product { get; private set; }
 	public IShoppingSessionRepository ShoppingSession { get; private set; }
 	public IUserAddressRepository UserAddress { get; private set; }
-	public IUserLoginRepository UserLogin { get; private set; }
 	public IUserPaymentRepository UserPayment { get; private set; }
 
 	public UnitOfWork(ApplicationDbContext db)
@@ -31,7 +30,6 @@ public class UnitOfWork : IUnitOfWork
 		Product = new ProductRepository(_db);
 		ShoppingSession = new ShoppingSessionRepository(_db);
 		UserAddress = new UserAddressRepository(_db);
-		UserLogin = new UserLoginRepository(_db);
 		UserPayment = new UserPaymentRepository(_db);
 	}
 

@@ -12,7 +12,6 @@ public interface IUnitOfWork
 	IProductInventoryRepository ProductInventory { get; }
 	IShoppingSessionRepository ShoppingSession { get; }
 	IUserAddressRepository UserAddress { get; }
-	IUserLoginRepository UserLogin { get; }
 	IUserPaymentRepository UserPayment { get; }
 
 	Task SaveAsync();

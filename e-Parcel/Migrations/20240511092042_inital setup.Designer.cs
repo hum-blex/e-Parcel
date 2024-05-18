@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using e_Parcel.DataAccess;
 
@@ -11,9 +12,11 @@ using e_Parcel.DataAccess;
 namespace e_Parcel.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240511092042_inital setup")]
+    partial class initalsetup
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -51,13 +54,13 @@ namespace e_Parcel.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "f9b7f2d5-dc03-49a0-86fa-38b128b256f6",
+                            Id = "11004dee-d794-45d9-80eb-dd45390f657b",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "34eeaf52-8057-4bda-89ec-ce076f3e82bf",
+                            Id = "1d10d340-730c-4e07-800e-ed52219095fa",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -394,6 +397,7 @@ namespace e_Parcel.Migrations
             modelBuilder.Entity("e_Parcel.Models.Domain.OrderDetail", b =>
                 {
                     b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedOn")
@@ -402,7 +406,7 @@ namespace e_Parcel.Migrations
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid>("OrderId")
+                    b.Property<Guid>("PaymentId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal>("Total")
@@ -478,6 +482,9 @@ namespace e_Parcel.Migrations
                         .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("OrderId")
+                        .IsUnique();
 
                     b.ToTable("PaymentDetails");
                 });
@@ -750,19 +757,11 @@ namespace e_Parcel.Migrations
 
             modelBuilder.Entity("e_Parcel.Models.Domain.OrderDetail", b =>
                 {
-                    b.HasOne("e_Parcel.Models.Domain.PaymentDetail", "Payment")
-                        .WithOne("Order")
-                        .HasForeignKey("e_Parcel.Models.Domain.OrderDetail", "Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("e_Parcel.Models.Domain.AppUser", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Payment");
 
                     b.Navigation("User");
                 });
@@ -784,6 +783,17 @@ namespace e_Parcel.Migrations
                     b.Navigation("Order");
 
                     b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("e_Parcel.Models.Domain.PaymentDetail", b =>
+                {
+                    b.HasOne("e_Parcel.Models.Domain.OrderDetail", "Order")
+                        .WithOne("Payment")
+                        .HasForeignKey("e_Parcel.Models.Domain.PaymentDetail", "OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Order");
                 });
 
             modelBuilder.Entity("e_Parcel.Models.Domain.Portfolio", b =>
@@ -870,15 +880,15 @@ namespace e_Parcel.Migrations
                     b.Navigation("Portfolios");
                 });
 
+            modelBuilder.Entity("e_Parcel.Models.Domain.OrderDetail", b =>
+                {
+                    b.Navigation("Payment")
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("e_Parcel.Models.Domain.OrderItem", b =>
                 {
                     b.Navigation("Portfolios");
-                });
-
-            modelBuilder.Entity("e_Parcel.Models.Domain.PaymentDetail", b =>
-                {
-                    b.Navigation("Order")
-                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

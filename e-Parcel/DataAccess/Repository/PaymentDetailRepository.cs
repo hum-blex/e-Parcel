@@ -11,17 +11,15 @@ public class PaymentDetailRepository : Repository<PaymentDetail>, IPaymentDetail
 		_db = db;
 	}
 
-    public async Task<PaymentDetail> UpdateAsync(Guid id, PaymentDetail obj)
-    {
-        var existingPaymentDetail = await _db.PaymentDetails.FindAsync(id);
-		if(existingPaymentDetail == null) return null;
-
-		existingPaymentDetail.OrderId = obj.OrderId;
+	public async Task<PaymentDetail> UpdateAsync(Guid id, PaymentDetail obj)
+	{
+		var existingPaymentDetail = await _db.PaymentDetails.FindAsync(id);
+		if (existingPaymentDetail == null) return null;
 		existingPaymentDetail.Amount = obj.Amount;
 		existingPaymentDetail.ModifiedOn = DateTime.Now;
 		existingPaymentDetail.Status = obj.Status;
 		existingPaymentDetail.Provider = obj.Provider;
 
 		return existingPaymentDetail;
-    }
+	}
 }

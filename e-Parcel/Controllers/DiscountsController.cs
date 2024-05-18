@@ -50,7 +50,7 @@ public class DiscountsController : ControllerBase
 
 		var DiscountDomain = _mapper.Map<Discount>(obj);
 		DiscountDomain.CreatedOn = DateTime.Now;
-
+		DiscountDomain.IsDeleted = false;
 		await _unitOfWork.Discount.AddAsync(DiscountDomain);
 		await _unitOfWork.SaveAsync();
 

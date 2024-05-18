@@ -21,7 +21,7 @@ public class CategoryRepository : Repository<Category>, ICategoryRepository
 		existing.Description = obj.Description;
 		existing.DisplayOrder = obj.DisplayOrder;
 		existing.ModifiedOn = DateTime.Now;
-
+		existing.IsDeleted = obj.IsDeleted;
 		return existing;
 	}
 

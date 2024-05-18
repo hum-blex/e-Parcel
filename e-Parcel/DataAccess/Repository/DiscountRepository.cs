@@ -12,9 +12,9 @@ public class DiscountRepository : Repository<Discount>, IDiscountRepository
 	}
 
 
-    public async Task<Discount?> UpdateAsync(Guid id, Discount obj)
-    {
-        var existingDiscount = await _db.Discounts.FindAsync(id);
+	public async Task<Discount?> UpdateAsync(Guid id, Discount obj)
+	{
+		var existingDiscount = await _db.Discounts.FindAsync(id);
 		if (existingDiscount == null) return null;
 
 		existingDiscount.Name = obj.Name;
@@ -23,7 +23,8 @@ public class DiscountRepository : Repository<Discount>, IDiscountRepository
 		existingDiscount.ModifiedBy = obj.ModifiedBy;
 		existingDiscount.ModifiedOn = DateTime.Now;
 		existingDiscount.Active = obj.Active;
+		existingDiscount.IsDeleted = obj.IsDeleted;
 
 		return existingDiscount;
-    }
+	}
 }
