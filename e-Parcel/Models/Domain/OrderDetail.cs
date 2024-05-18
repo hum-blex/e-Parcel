@@ -8,6 +8,7 @@ public class OrderDetail
 	public Guid Id { get; set; }
 
 	public string UserId { get; set; }
+	public string Encrypted { get; set; }
 
 	[Column(TypeName = "decimal(18, 0)")]
 	public decimal Total { get; set; }

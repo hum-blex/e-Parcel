@@ -2,6 +2,7 @@
 using e_Parcel.DataAccess.Repository.IRepository;
 using e_Parcel.Models.Domain;
 using e_Parcel.Models.DTOs.OrderDetails;
+using e_Parcel.Service;
 using Microsoft.AspNetCore.Mvc;
 
 namespace e_Parcel.Controllers;
@@ -12,11 +13,13 @@ public class OrderDetailsController : ControllerBase
 {
 	private readonly IUnitOfWork _unitOfWork;
 	private readonly IMapper _mapper;
+	private readonly IEDService eDService;
 
-	public OrderDetailsController(IUnitOfWork unitOfWork, IMapper mapper)
+	public OrderDetailsController(IUnitOfWork unitOfWork, IMapper mapper, IEDService eDService)
 	{
 		_unitOfWork = unitOfWork;
 		_mapper = mapper;
+		this.eDService = eDService;
 	}
 
 	[HttpGet]
@@ -24,7 +27,6 @@ public class OrderDetailsController : ControllerBase
 	{
 		var _data = await _unitOfWork.OrderDetail.GetAllAsync();
 		if (!ModelState.IsValid) return BadRequest(ModelState);
-
 
 		return Ok(_mapper.Map<List<OrderDetailDto>>(_data));
 	}
@@ -36,6 +38,8 @@ public class OrderDetailsController : ControllerBase
 	{
 		var _data = await _unitOfWork.OrderDetail.GetAsync(c => c.Id == id);
 		if (_data == null) return NotFound();
+		string eny = _data.Id.ToString();
+		//_data.Id = eDService.Encrypt(_data.Id.);
 
 		return Ok(_mapper.Map<OrderDetailDto>(_data));
 	}
@@ -53,6 +57,8 @@ public class OrderDetailsController : ControllerBase
 		await _unitOfWork.SaveAsync();
 
 		var OrderDetailDTO = _mapper.Map<OrderDetail>(OrderDetailDomain);
+		string eny = OrderDetailDTO.Id.ToString();
+		OrderDetailDTO.Encrypted = eDService.Encrypt(eny);
 
 		return CreatedAtAction(nameof(GetByID), new { id = OrderDetailDTO.Id }, OrderDetailDTO);
 	}
@@ -62,10 +68,10 @@ public class OrderDetailsController : ControllerBase
 	public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] OrderDetailUpdateDto obj)
 	{
 		if (id != obj.Id || obj == null) return BadRequest();
-		
+
 		var OrderDetailDomain = _mapper.Map<OrderDetail>(obj);
 
-        OrderDetailDomain = await _unitOfWork.OrderDetail.UpdateAsync(id, OrderDetailDomain);
+		OrderDetailDomain = await _unitOfWork.OrderDetail.UpdateAsync(id, OrderDetailDomain);
 		if (OrderDetailDomain == null) return NotFound();
 
 		await _unitOfWork.SaveAsync();

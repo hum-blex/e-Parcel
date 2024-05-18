@@ -7,6 +7,7 @@ namespace e_Parcel.Models.DTOs.OrderDetails
 	public class OrderDetailDto
 	{
 		public Guid Id { get; set; }
+		public string Encrypted { get; set; }
 
 		[Column(TypeName = "decimal(18, 0)")]
 		public decimal Total { get; set; }
