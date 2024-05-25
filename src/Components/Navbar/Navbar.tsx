@@ -6,7 +6,6 @@ import { IoMdSearch } from "react-icons/io";
 import { FaCartShopping } from "react-icons/fa6";
 import DarkMode from "./DarkMode";
 import { Link } from "react-router-dom";
-import login from "../../Pages/login";
 
 export function NavbarDemo() {
   return (
