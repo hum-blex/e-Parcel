@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate(); // Create navigate function
 
   const handleLogin = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -12,7 +14,7 @@ const Login = () => {
 
     if (email === adminEmail && password === adminPassword) {
       alert('Login successful!');
-      // Redirect or further actions here
+      navigate('/'); // Redirect to landing page
     } else {
       alert('Invalid credentials!');
     }
@@ -69,7 +71,6 @@ const Login = () => {
         <div className="text-center mb-6 px-3">
           <p className="text-gray-700 font-bold">Don't have an account?</p>
           <button
-          // className="bg-gradient-to-r from-primary to-secondary transition-all duration-200 text-white py-1 px-4 rounded-full flex items-center gap-3 group"
             className="bg-secondary hover:bg-primary text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
             type="button"
           >
