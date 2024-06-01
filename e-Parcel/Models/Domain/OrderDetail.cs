@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace e_Parcel.Models.Domain;
 
@@ -22,6 +23,7 @@ public class OrderDetail
 	[ValidateNever]
 	public AppUser User { get; set; } = null!;
 
-	[ForeignKey("OrderId")]
 	public PaymentDetail Payment { get; set; } = null!;
+	[JsonIgnore]
+	public ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
 }

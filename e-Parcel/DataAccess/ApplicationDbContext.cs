@@ -52,20 +52,49 @@ public partial class ApplicationDbContext : IdentityDbContext<AppUser>
 			.WithMany(p => p.Portfolios)
 			.HasForeignKey(p => p.OrderItemId);
 
+		builder.Entity<OrderItem>()
+		   .HasIndex(oi => oi.OrderId);
+
+		builder.Entity<OrderItem>()
+			.HasIndex(oi => oi.ProductId);
+
+		builder.Entity<OrderDetail>()
+			.HasKey(o => o.Id);
+
 		builder.Entity<OrderDetail>()
 			.HasOne(o => o.Payment)
 			.WithOne(p => p.Order)
-			.HasForeignKey<PaymentDetail>(p => p.OrderId);
+			.HasForeignKey<PaymentDetail>(p => p.OrderId)
+			.IsRequired();
 
 		builder.Entity<OrderDetail>()
 			.HasOne(o => o.User)
 			.WithMany()
 			.HasForeignKey(o => o.UserId);
 
+		builder.Entity<OrderItem>()
+		   .HasOne(oi => oi.Product)
+		   .WithMany(p => p.OrderItems)
+		   .HasForeignKey(oi => oi.ProductId);
+
+		builder.Entity<PaymentDetail>()
+		   .HasKey(p => p.Id);
+
+		builder.Entity<OrderDetail>()
+		   .HasMany(o => o.OrderItems)
+		   .WithOne(i => i.Order)
+		   .HasForeignKey(i => i.OrderId);
+
 		builder.Entity<ShoppingSession>()
 			.HasOne(s => s.User)
 			.WithMany()
 			.HasForeignKey(s => s.UserId);
+
+		builder.Entity<PaymentDetail>()
+		   .HasOne(p => p.Order)
+		   .WithOne(o => o.Payment)
+		   .HasForeignKey<PaymentDetail>(p => p.OrderId)
+		   .IsRequired();
 
 		builder.Entity<PaymentDetail>()
 			.HasOne(p => p.Order)

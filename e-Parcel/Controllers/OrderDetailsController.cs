@@ -25,7 +25,8 @@ public class OrderDetailsController : ControllerBase
 	[HttpGet]
 	public async Task<IActionResult> GetAll()
 	{
-		var _data = await _unitOfWork.OrderDetail.GetAllAsync();
+		var _data = await _unitOfWork.OrderDetail.GetAllAsync(
+			includeProperties: "User,Payment,OrderItems.Product");
 		if (!ModelState.IsValid) return BadRequest(ModelState);
 
 		return Ok(_mapper.Map<List<OrderDetailDto>>(_data));
@@ -36,7 +37,9 @@ public class OrderDetailsController : ControllerBase
 	[Route("{id:guid}")]
 	public async Task<IActionResult> GetByID([FromRoute] Guid id)
 	{
-		var _data = await _unitOfWork.OrderDetail.GetAsync(c => c.Id == id);
+		var _data = await _unitOfWork.OrderDetail.GetAsync(
+			filter: c => c.Id == id,
+			includeProperties: "User,Payment,OrderItems.Product");
 		if (_data == null) return NotFound();
 		string eny = _data.Id.ToString();
 		//_data.Id = eDService.Encrypt(_data.Id.);
@@ -52,13 +55,13 @@ public class OrderDetailsController : ControllerBase
 
 		var OrderDetailDomain = _mapper.Map<OrderDetail>(obj);
 		OrderDetailDomain.CreatedOn = DateTime.Now;
-
+		string eny = OrderDetailDomain.Id.ToString();
+		OrderDetailDomain.Encrypted = eDService.Encrypt(eny);
 		await _unitOfWork.OrderDetail.AddAsync(OrderDetailDomain);
 		await _unitOfWork.SaveAsync();
 
 		var OrderDetailDTO = _mapper.Map<OrderDetail>(OrderDetailDomain);
-		string eny = OrderDetailDTO.Id.ToString();
-		OrderDetailDTO.Encrypted = eDService.Encrypt(eny);
+
 
 		return CreatedAtAction(nameof(GetByID), new { id = OrderDetailDTO.Id }, OrderDetailDTO);
 	}

@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace e_Parcel.Models.Domain;
 
@@ -17,12 +18,12 @@ public class OrderItem
 	public DateTime? ModifiedOn { get; set; }
 
 	// Navigation properties
-
+	[JsonIgnore]
 	[ForeignKey("OrderId")]
 	public OrderDetail Order { get; set; } = null!;
-
+	[JsonIgnore]
 	[ForeignKey("ProductId")]
 	public Product Product { get; set; } = null!;
-	public List<Portfolio> Portfolios { get; set; } = new List<Portfolio>();
+	public ICollection<Portfolio> Portfolios { get; set; } = new List<Portfolio>();
 
 }

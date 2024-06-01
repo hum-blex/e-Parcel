@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using e_Parcel.DataAccess;
 
@@ -11,9 +12,11 @@ using e_Parcel.DataAccess;
 namespace e_Parcel.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240601135155_changes in orderitem,detail and payment")]
+    partial class changesinorderitemdetailandpayment
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -51,13 +54,13 @@ namespace e_Parcel.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "da4f9378-01aa-4341-b620-3099feb414d3",
+                            Id = "c874e8b2-7729-4a5a-a414-580da5e3cc65",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "44ed6d30-c79b-477f-ba0a-56ec4172033d",
+                            Id = "8814475b-48a0-413d-bc56-501f726b58e8",
                             Name = "User",
                             NormalizedName = "USER"
                         });

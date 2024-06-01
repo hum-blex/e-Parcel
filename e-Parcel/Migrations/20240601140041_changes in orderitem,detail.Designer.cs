@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using e_Parcel.DataAccess;
 
@@ -11,9 +12,11 @@ using e_Parcel.DataAccess;
 namespace e_Parcel.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240601140041_changes in orderitem,detail")]
+    partial class changesinorderitemdetail
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -51,13 +54,13 @@ namespace e_Parcel.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "da4f9378-01aa-4341-b620-3099feb414d3",
+                            Id = "04d9d42c-faed-4a59-a64f-6b347259bfeb",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "44ed6d30-c79b-477f-ba0a-56ec4172033d",
+                            Id = "1b161160-ad64-4def-bd3d-61f9e72c50c8",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -464,9 +467,6 @@ namespace e_Parcel.Migrations
 
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
-
-                    b.Property<Guid>("OrderId")
-                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Provider")
                         .IsRequired()

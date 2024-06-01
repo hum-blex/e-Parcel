@@ -24,10 +24,19 @@ namespace e_Parcel.Controllers
 		[HttpGet]
 		public async Task<IActionResult> GetAll()
 		{
-			var _data = await _unitOfWork.OrderItem.GetAllAsync();
-			if (!ModelState.IsValid) return BadRequest(ModelState);
 
-			return Ok(_mapper.Map<List<OrderItemDto>>(_data));
+			try
+			{
+				var _data = await _unitOfWork.OrderItem.GetAllAsync(includeProperties: "Order,Product");
+				if (!ModelState.IsValid) return BadRequest(ModelState);
+
+				return Ok(_mapper.Map<List<OrderItemDto>>(_data));
+			}
+			catch (Exception ex)
+			{
+
+				return StatusCode(500, "An error occurred while processing your request.");
+			}
 		}
 
 
@@ -35,7 +44,8 @@ namespace e_Parcel.Controllers
 		[Route("{id:guid}")]
 		public async Task<IActionResult> Get([FromRoute] Guid id)
 		{
-			var _data = await _unitOfWork.OrderItem.GetAsync(c => c.Id == id);
+			var _data = await _unitOfWork.OrderItem.GetAsync(filter: i => i.Id == id,
+			includeProperties: "Order,Product,Portfolios");
 			if (_data == null) return NotFound();
 
 			return Ok(_mapper.Map<OrderItemDto>(_data));
@@ -46,9 +56,16 @@ namespace e_Parcel.Controllers
 		public async Task<IActionResult> CreateAsync([FromBody] OrderItemAddDto obj)
 		{
 			if (obj == null) return BadRequest("Order Item is null");
+			var order = await _unitOfWork.OrderDetail.GetAsync(c => c.Id == obj.OrderId);
+			if (order == null) return NotFound("Order not found");
+
+			var product = await _unitOfWork.Product.GetAsync(c => c.Id == obj.ProductId);
+			if (product == null) return NotFound("Product not found");
 
 			var OrderItemDomain = _mapper.Map<OrderItem>(obj);
 			OrderItemDomain.CreatedOn = DateTime.Now;
+			OrderItemDomain.OrderId = order.Id;
+			OrderItemDomain.ProductId = product.Id;
 
 			await _unitOfWork.OrderItem.AddAsync(OrderItemDomain);
 			await _unitOfWork.SaveAsync();

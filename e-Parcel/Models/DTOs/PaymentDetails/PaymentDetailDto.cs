@@ -1,5 +1,4 @@
-﻿using e_Parcel.Models.DTOs.OrderDetails;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace e_Parcel.Models.DTOs.PaymentDetails
@@ -8,6 +7,7 @@ namespace e_Parcel.Models.DTOs.PaymentDetails
 	{
 		public Guid Id { get; set; }
 
+		public Guid OrderId { get; set; }
 		[Column(TypeName = "decimal(18, 0)")]
 		public decimal Amount { get; set; }
 
@@ -21,6 +21,5 @@ namespace e_Parcel.Models.DTOs.PaymentDetails
 		[StringLength(50)]
 		public string Provider { get; set; } = null!;
 
-		public OrderDetailDto Order { get; set; } = null!;
 	}
 }

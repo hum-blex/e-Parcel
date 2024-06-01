@@ -10,8 +10,8 @@ public class OrderItemRepository : Repository<OrderItem>, IOrderItemRepository
 	{
 		_db = db;
 	}
-    public async Task<OrderItem> UpdateAsync(Guid id, OrderItem obj)
-    {
+	public async Task<OrderItem> UpdateAsync(Guid id, OrderItem obj)
+	{
 		var existingOrderItem = await _db.OrderItems.FindAsync(id);
 		if (existingOrderItem == null) return null;
 
@@ -21,5 +21,5 @@ public class OrderItemRepository : Repository<OrderItem>, IOrderItemRepository
 		existingOrderItem.ProductId = obj.ProductId;
 
 		return existingOrderItem;
-    }
+	}
 }
