@@ -3,10 +3,9 @@ import { HoveredLink, Menu, MenuItem, ProductItem } from "../ui/navbar-menu";
 import { cn } from "../utils/cn";
 import Logo from "../../assets/logo-color.png";
 import { IoMdSearch } from "react-icons/io";
-import { FaCartShopping } from "react-icons/fa6";
+import { FaShoppingCart } from "react-icons/fa"; // Corrected import for shopping cart icon
 import DarkMode from "./DarkMode";
-import { Link } from "react-router-dom";
-
+import { Link, useNavigate } from "react-router-dom"; // Updated import to use useNavigate
 export function NavbarDemo() {
   return (
     <div className="relative w-full flex items-center justify-center">
@@ -20,6 +19,17 @@ export function NavbarDemo() {
 
 const Navbar: React.FC<{ className?: string }> = ({ className }) => {
   const [active, setActive] = useState<string | null>(null);
+  const [isCartVisible, setIsCartVisible] = useState<boolean>(false);
+  const [cartItems, setCartItems] = useState<Array<any>>([]); // Replace any with your cart item type
+  const navigate = useNavigate(); // Updated to useNavigate
+
+  const handleCartClick = () => {
+    setIsCartVisible(!isCartVisible);
+  };
+
+  const goToCheckout = () => {
+    navigate('/checkout'); // Updated method to navigate
+  };
 
   return (
     <div className="shadow-md bg-white dark:bg-gray-900 dark:text-white duration-200 relative z-40">
@@ -32,11 +42,13 @@ const Navbar: React.FC<{ className?: string }> = ({ className }) => {
               className="font-bold text-2xl sm:text-3xl flex gap-2 items-center"
             >
               <img src={Logo} alt="Logo" className="w-10" />
-              Parcel
+              <Link to="/home">
+                Parcel
+              </Link>
             </a>
           </div>
           {/* search bar*/}
-          <div className="flex justify-between itepms-center gap-4">
+          <div className="flex justify-between items-center gap-4">
             <div className="relative group hidden sm:block">
               <input
                 type="text"
@@ -46,16 +58,15 @@ const Navbar: React.FC<{ className?: string }> = ({ className }) => {
               />
               <IoMdSearch className="text-gray-500 group-hover:text-primary absolute top-1/2 -translate-y-1/2 right-3" />
             </div>
-            {/* </div> */}
-            {/* Other button */}
+            {/* Cart button */}
             <button
-              onClick={() => alert("Not Availabe Yet")}
+              onClick={handleCartClick}
               className="bg-gradient-to-r from-primary to-secondary transition-all duration-200 text-white py-1 px-4 rounded-full flex items-center gap-3 group"
             >
               <span className="group-hover:block hidden transition-all duration-200">
                 Order
               </span>
-              <FaCartShopping className="text-xl text-white drop-shadow-sm cursor-pointer" />
+              <FaShoppingCart className="text-xl text-white drop-shadow-sm cursor-pointer" />
             </button>
             {/* DarkMode Switch */}
             <div>
@@ -64,6 +75,23 @@ const Navbar: React.FC<{ className?: string }> = ({ className }) => {
           </div>
         </div>
       </div>
+      {/* Cart Details */}
+      {isCartVisible && (
+        <div className="absolute right-0 top-full mt-2 p-4 bg-white shadow-lg rounded-lg">
+          {cartItems.length > 0 ? (
+            <ul>
+              {cartItems.map((item, index) => (
+                <li key={index}>{item.name} - Quantity: {item.quantity}</li>
+              ))}
+            </ul>
+          ) : (
+            <p>No items in the cart.</p>
+          )}
+          <button onClick={goToCheckout} className="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+            Move to Checkout
+          </button>
+        </div>
+      )}
       {/* Lower Navbar*/}
       <div
         className={cn(
@@ -72,42 +100,12 @@ const Navbar: React.FC<{ className?: string }> = ({ className }) => {
         )}
       >
         <Menu setActive={setActive}>
-          <MenuItem setActive={setActive} active={active} item="Services">
+          <MenuItem setActive={setActive} active={active} item="Categories">
             <div className="flex flex-col space-y-4 text-sm">
-              <HoveredLink href="/web-dev">Web Development</HoveredLink>
-              <HoveredLink href="/interface-design">
-                Interface Design
-              </HoveredLink>
-              <HoveredLink href="/seo">Search Engine Optimization</HoveredLink>
-              <HoveredLink href="/branding">Branding</HoveredLink>
-            </div>
-          </MenuItem>
-          <MenuItem setActive={setActive} active={active} item="Products">
-            <div className=" text-sm grid grid-cols-2 gap-10 p-4">
-              <ProductItem
-                title="Algochurn"
-                href="https://algochurn.com"
-                src="https://assets.aceternity.com/demos/algochurn.webp"
-                description="Prepare for tech interviews like never before."
-              />
-              <ProductItem
-                title="Tailwind Master Kit"
-                href="https://tailwindmasterkit.com"
-                src="https://assets.aceternity.com/demos/tailwindmasterkit.webp"
-                description="Production ready Tailwind css components for your next project"
-              />
-              <ProductItem
-                title="Moonbeam"
-                href="https://gomoonbeam.com"
-                src="https://assets.aceternity.com/demos/Screenshot+2024-02-21+at+11.51.31%E2%80%AFPM.png"
-                description="Never write from scratch again. Go from idea to blog in minutes."
-              />
-              <ProductItem
-                title="Rogue"
-                href="https://userogue.com"
-                src="https://assets.aceternity.com/demos/Screenshot+2024-02-21+at+11.47.07%E2%80%AFPM.png"
-                description="Respond to government RFPs, RFIs and RFQs 10x faster using AI"
-              />
+              <HoveredLink href="/clothing">Clothing</HoveredLink>
+              <HoveredLink href="/electronics">Electronics</HoveredLink>
+              <HoveredLink href="/kitchenware">Kitchen Ware</HoveredLink>
+              <HoveredLink href="/furniture">Furniture</HoveredLink>
             </div>
           </MenuItem>
           <MenuItem setActive={setActive} active={active} item="Pricing">
@@ -116,6 +114,11 @@ const Navbar: React.FC<{ className?: string }> = ({ className }) => {
               <HoveredLink href="/individual">Individual</HoveredLink>
               <HoveredLink href="/team">Team</HoveredLink>
               <HoveredLink href="/enterprise">Enterprise</HoveredLink>
+            </div>
+          </MenuItem>
+          <MenuItem setActive={setActive} active={active} item="Profile">
+            <div className="flex flex-col space-y-4 text-sm">
+              <HoveredLink href="/profile">My Profile</HoveredLink>
             </div>
           </MenuItem>
           <Link to="./login">
