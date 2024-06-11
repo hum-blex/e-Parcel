@@ -1,15 +1,15 @@
 import React from 'react';
 import LightButton from '../../assets/website/light-mode-button.png';
 import DarkButton from '../../assets/website/dark-mode-button.png';
+import { useTheme } from '../../contexts/themeContext'; // Import useTheme
 
-const DarkMode = () => {
-  const [theme,setTheme] = React.useState(
-    localStorage.getItem("theme")? localStorage.getItem("theme") : "light"
-  );
-
-  const element = document.documentElement;
-
-  React.useEffect(() => {
+const ThemeToggleButton = () => {
+    const [theme,setTheme] = React.useState(
+      localStorage.getItem("theme")? localStorage.getItem("theme") : "light"
+    );
+  
+    const element = document.documentElement;
+React.useEffect(() => {
     if(theme === "dark"){
       element.classList.add("dark");
       localStorage.setItem("theme", "dark");
@@ -37,4 +37,4 @@ const DarkMode = () => {
   );
 };
 
-export default DarkMode;
+export default ThemeToggleButton;

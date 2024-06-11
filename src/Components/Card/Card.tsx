@@ -1,23 +1,73 @@
-import React from 'react'
-import "./Card.css";
-type Props = {}
+import { FC } from 'react';
+import { CheckIcon, PlusIcon } from '@heroicons/react/24/solid';
+import { useShoppingCart } from '../../hooks/useShoppingCart';
 
-const Card = (props: Props) => {
-  return (
-    <div className='card'>
-        <img
-            src ="https://cdn.discordapp.com/attachments/858929848080138241/1241282079287672902/parcel.png?ex=6649a185&is=66485005&hm=0881590d27e23bfd933fd2e817b26a482133dcdca0fabe214ab3bc4d17fdde4b&"
-            alt="parcel"
-        />
-        <div className='details'>
-            <h2>Parcel</h2>
-            <p>Parcel is a package manager for JavaScript, which we use to manage our dependencies.
-                </p>       
-        </div>
-        <p className='info'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo, repellat.
-        </p>
-    </div>
-  )
+interface ProductData {
+  id: number;
+  title: string;
+  category: string;
+  price: number;
+  image: string;
 }
 
-export default Card
+interface CardProps {
+  data: ProductData;
+}
+
+const Card: FC<CardProps> = ({ data }) => {
+  const {
+    cartProducts,
+    addProductToCart,
+    showProduct,
+  } = useShoppingCart();
+  const renderIcon = () => {
+    const isInCart = cartProducts.some((product: ProductData) => product.id === data.id);
+
+    const commonClasses = 'absolute top-0 right-0 flex justify-center items-center w-6 h-6 rounded-full m-2 p-1';
+
+    if (isInCart) {
+      return (
+        <div className={`${commonClasses} bg-black`}>
+          <CheckIcon className="h-6 w-6 text-white" />
+        </div>
+      );
+    } else {
+      return (
+        <div
+          className={`${commonClasses} bg-white`}
+          onClick={(e) => {
+            e.stopPropagation();
+            addProductToCart(data);
+          }}
+        >
+          <PlusIcon className="h-6 w-6 text-black" />
+        </div>
+      );
+    }
+  };
+
+  return (
+    <div
+      className="bg-white cursor-pointer w-56 h-60 rounded-lg"
+      onClick={() => showProduct(data)}
+    >
+      <figure className="relative mb-2 w-full h-4/5">
+        <span className="absolute bottom-0 left-0 bg-white/60 rounded-lg text-black text-xs m-2 px-3 py-0.5">
+          {data.category}
+        </span>
+        <img
+          className="w-full h-full object-cover rounded-lg"
+          src={data.image}
+          alt={data.title}
+        />
+        {renderIcon()}
+      </figure>
+      <p className="flex justify-between">
+        <span className="text-sm font-light">{data.title}</span>
+        <span className="text-lg font-medium">${data.price}</span>
+      </p>
+    </div>
+  );
+};
+
+export { Card };

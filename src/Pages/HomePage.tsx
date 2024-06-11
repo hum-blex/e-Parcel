@@ -1,23 +1,18 @@
-import React from 'react';
-import Navbar from "../Components/Navbar/Navbar";
-import { ProductCard } from '../Components/ProductCard';
+import React from "react";
+import Hero from "../Components/Hero/Hero";
+import Navbar from "../Components/Navbar/Navbar"; // Import the Navbar component
 
-export const HomePage = () => {
-  const handleAddToCart = () => {
-    console.log('Product added to cart!');
-    // Implement cart logic here
-  };
+type Props = {};
 
+const HomePage = (props: Props) => {
   return (
-    <div>
+    <>
       <Navbar />
-      <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
-        <ProductCard productName="Product 1" productPrice={29.99} onAddToCart={handleAddToCart} />
-        <ProductCard productName="Product 2" productPrice={39.99} onAddToCart={handleAddToCart} />
-        <ProductCard productName="Product 3" productPrice={49.99} onAddToCart={handleAddToCart} />
-        {/* Add more ProductCards as needed */}
-      </div>
-    </div>
+      <Hero />
+    </>
   );
 };
 
+export default HomePage;
+
+export {};

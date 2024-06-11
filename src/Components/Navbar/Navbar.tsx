@@ -4,8 +4,10 @@ import { cn } from "../utils/cn";
 import Logo from "../../assets/logo-color.png";
 import { IoMdSearch } from "react-icons/io";
 import { FaShoppingCart } from "react-icons/fa"; // Corrected import for shopping cart icon
-import DarkMode from "./DarkMode";
 import { Link, useNavigate } from "react-router-dom"; // Updated import to use useNavigate
+import { useCart } from '../../contexts/CartContext';
+import ThemeToggleButton from './ThemeToggleButton'; // Import the theme toggle button
+
 export function NavbarDemo() {
   return (
     <div className="relative w-full flex items-center justify-center">
@@ -18,10 +20,14 @@ export function NavbarDemo() {
 }
 
 const Navbar: React.FC<{ className?: string }> = ({ className }) => {
-  const [active, setActive] = useState<string | null>(null);
+  const { cartItems, addToCart } = useCart();
   const [isCartVisible, setIsCartVisible] = useState<boolean>(false);
-  const [cartItems, setCartItems] = useState<Array<any>>([]); // Replace any with your cart item type
   const navigate = useNavigate(); // Updated to useNavigate
+  const [active, setActive] = useState<string | null>(null);
+
+  const handleSetActive = (item: string | null) => {
+    setActive(item);
+  };
 
   const handleCartClick = () => {
     setIsCartVisible(!isCartVisible);
@@ -70,7 +76,7 @@ const Navbar: React.FC<{ className?: string }> = ({ className }) => {
             </button>
             {/* DarkMode Switch */}
             <div>
-              <DarkMode />
+              <ThemeToggleButton />
             </div>
           </div>
         </div>
@@ -99,8 +105,8 @@ const Navbar: React.FC<{ className?: string }> = ({ className }) => {
           className
         )}
       >
-        <Menu setActive={setActive}>
-          <MenuItem setActive={setActive} active={active} item="Categories">
+        <Menu setActive={handleSetActive}>
+          <MenuItem setActive={handleSetActive} active={active} item="Categories">
             <div className="flex flex-col space-y-4 text-sm">
               <HoveredLink href="/clothing">Clothing</HoveredLink>
               <HoveredLink href="/electronics">Electronics</HoveredLink>
@@ -108,7 +114,7 @@ const Navbar: React.FC<{ className?: string }> = ({ className }) => {
               <HoveredLink href="/furniture">Furniture</HoveredLink>
             </div>
           </MenuItem>
-          <MenuItem setActive={setActive} active={active} item="Pricing">
+          <MenuItem setActive={handleSetActive} active={active} item="Pricing">
             <div className="flex flex-col space-y-4 text-sm">
               <HoveredLink href="/hobby">Hobby</HoveredLink>
               <HoveredLink href="/individual">Individual</HoveredLink>
@@ -116,13 +122,13 @@ const Navbar: React.FC<{ className?: string }> = ({ className }) => {
               <HoveredLink href="/enterprise">Enterprise</HoveredLink>
             </div>
           </MenuItem>
-          <MenuItem setActive={setActive} active={active} item="Profile">
+          <MenuItem setActive={handleSetActive} active={active} item="Profile">
             <div className="flex flex-col space-y-4 text-sm">
               <HoveredLink href="/profile">My Profile</HoveredLink>
             </div>
           </MenuItem>
           <Link to="./login">
-            <MenuItem setActive={setActive} active={active} item="Login/Signup">
+            <MenuItem setActive={handleSetActive} active={active} item="Login/Signup">
               Login/Signup
             </MenuItem>
           </Link>
