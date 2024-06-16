@@ -1,0 +1,33 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34330.188
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "e-Parcel", "e-Parcel\e-Parcel.csproj", "{5499514F-94B6-41AE-A165-93E5C5555434}"
+EndProject
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "e-ParcelDb", "e-ParcelDb\e-ParcelDb.sqlproj", "{7D506C9F-FDC9-4E37-95B8-F11FFF303968}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5499514F-94B6-41AE-A165-93E5C5555434}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5499514F-94B6-41AE-A165-93E5C5555434}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5499514F-94B6-41AE-A165-93E5C5555434}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5499514F-94B6-41AE-A165-93E5C5555434}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7D506C9F-FDC9-4E37-95B8-F11FFF303968}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7D506C9F-FDC9-4E37-95B8-F11FFF303968}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7D506C9F-FDC9-4E37-95B8-F11FFF303968}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{7D506C9F-FDC9-4E37-95B8-F11FFF303968}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7D506C9F-FDC9-4E37-95B8-F11FFF303968}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7D506C9F-FDC9-4E37-95B8-F11FFF303968}.Release|Any CPU.Deploy.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C0E3DB55-979B-46C4-B15D-C15F1A86F3DB}
+	EndGlobalSection
+EndGlobal
