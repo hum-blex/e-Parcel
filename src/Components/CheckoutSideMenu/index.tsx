@@ -8,10 +8,14 @@ import { Link } from 'react-router-dom';
 interface Product {
   id: number;
   title: string;
-  image: string;
+  category: string;
   price: number;
+  image: string;
+  rating: {
+    rate: number;
+    count: number;
+  }
 }
-
 const CheckoutSideMenu = () => {
   const { getTotalPrice, handleCheckout, handleDelete } = useShoppingCart(); // Call useShoppingCart at the top level, before any conditions or early returns
 
@@ -27,6 +31,9 @@ const CheckoutSideMenu = () => {
     closeCheckoutSideMenu,
     cartProducts,
   } = shoppingCartContext;
+
+  console.log('isCheckoutSideMenu:', isCheckoutSideMenu);
+  console.log('cartProducts:', cartProducts);
 
   return (
     <Aside

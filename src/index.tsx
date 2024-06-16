@@ -1,38 +1,30 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import './index.css';
-import App from './App';
-import Login from './Pages/login';
-import Signup from './Pages/signup';
-import HomePage from './Pages/HomePage';
-import ProductDetails from './Components/Product/ProductItem'; // Assuming you have a ProductDetails page
-import UserProfile from './Pages/UserProfile/UserProfile'; // Assuming you have a UserProfile page
-import NotFound from './Pages/NotFound'; // A generic 404 page
-import { ShoppingCartProvider } from './contexts';
-import { CheckoutSideMenu } from './Components/CheckoutSideMenu';
-import { ThemeProvider } from './contexts/themeContext'; // Correct the casing
-import reportWebVitals from './reportWebVitals';
+
+
+import React from "react";
+import ReactDOM from "react-dom/client";
+import { RouterProvider } from "react-router-dom";
+import { ThemeProvider } from './contexts/themeContext';
+
+
+import "./index.css";
+
+import reportWebVitals from "./reportWebVitals";
+import { router } from "./Routes/Routes";
 
 const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
+  document.getElementById("root") as HTMLElement
 );
+
+
 root.render(
   <React.StrictMode>
-    <BrowserRouter>
-      <ThemeProvider>
-        <Routes>
-          <Route path="/" element={<App />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/home" element={<HomePage />} />
-          <Route path="/product/details" element={<ProductDetails />} />
-          <Route path="/user/profile" element={<UserProfile />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </ThemeProvider>
-    </BrowserRouter>
+    <ThemeProvider>
+    <RouterProvider router={router} />
+    </ThemeProvider>
   </React.StrictMode>
 );
 
+// If you want to start measuring performance in your app, pass a function
+// to log results (for example: reportWebVitals(console.log))
+// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();

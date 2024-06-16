@@ -43,15 +43,10 @@ const Navbar: React.FC<{ className?: string }> = ({ className }) => {
       <div className="bg-primary/40 py-2">
         <div className="container flex justify-between items-center">
           <div>
-            <a
-              href="#"
-              className="font-bold text-2xl sm:text-3xl flex gap-2 items-center"
-            >
+            <Link to="/" className="font-bold text-2xl sm:text-3xl flex gap-2 items-center">
               <img src={Logo} alt="Logo" className="w-10" />
-              <Link to="/home">
-                Parcel
-              </Link>
-            </a>
+              Parcel
+            </Link>
           </div>
           {/* search bar*/}
           <div className="flex justify-between items-center gap-4">
@@ -122,12 +117,14 @@ const Navbar: React.FC<{ className?: string }> = ({ className }) => {
               <HoveredLink href="/enterprise">Enterprise</HoveredLink>
             </div>
           </MenuItem>
-          <MenuItem setActive={handleSetActive} active={active} item="Profile">
-            <div className="flex flex-col space-y-4 text-sm">
-              <HoveredLink href="/profile">My Profile</HoveredLink>
-            </div>
-          </MenuItem>
-          <Link to="./login">
+          <Link to="/profile">
+            <MenuItem setActive={handleSetActive} active={active} item="Profile">
+              <div className="flex flex-col space-y-4 text-sm">
+                <HoveredLink href="/profile">My Profile</HoveredLink>
+              </div>
+            </MenuItem>
+          </Link>  
+          <Link to="/login">
             <MenuItem setActive={handleSetActive} active={active} item="Login/Signup">
               Login/Signup
             </MenuItem>

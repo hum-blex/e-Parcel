@@ -7,7 +7,7 @@ const ProductDetail = () => {
     isProductDetailOpen,
     closeProductDetail,
     productDetail,
-  } = ShoppingCartContext;
+  } = useContext(ShoppingCartContext);
 
   return (
     <Aside isOpen={isProductDetailOpen} title="Detail" onClose={closeProductDetail}>

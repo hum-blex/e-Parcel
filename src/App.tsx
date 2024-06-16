@@ -2,11 +2,12 @@ import React from 'react';
 import Navbar from './Components/Navbar/Navbar';
 import { ShoppingCartProvider } from './contexts';
 import { CheckoutSideMenu } from './Components/CheckoutSideMenu';
-import { CartProvider } from "./contexts/CartContext";
-import { useTheme } from './contexts/themeContext'; // Import useTheme with correct casing
+import { useTheme } from './contexts/themeContext';
+import { Outlet, useLocation } from 'react-router-dom';
 
 function App() {
   const { theme } = useTheme();
+  const location = useLocation();
 
   // Dynamically import theme CSS
   React.useEffect(() => {
@@ -17,14 +18,22 @@ function App() {
     }
   }, [theme]);
 
+  // List of paths where the Navbar should not be displayed
+  const hideNavbarPaths = ['/login', '/signup', '/profile'];
+
+  // Check if the current path is in the list of paths where the Navbar should be hidden
+  const hideNavbar = hideNavbarPaths.includes(location.pathname);
+
   return (
     <ShoppingCartProvider>
-      <div className={`App ${theme}`}> {/* Apply the theme class */}
-        <Navbar />
-        <CheckoutSideMenu />
+      <div className={`App ${theme}`}>
+        {!hideNavbar && <Navbar />}
+        <Outlet />
+        {/* <CheckoutSideMenu /> */}
       </div>
     </ShoppingCartProvider>
   );
 }
 
 export default App;
+
