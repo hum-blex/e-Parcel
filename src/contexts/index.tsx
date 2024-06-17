@@ -197,26 +197,7 @@
 import React, { createContext, useEffect, useState, ReactNode, FC } from 'react';
 import { apiUrl } from '../api';
 import { useLocalStorage } from '../hooks/useLocalStorage';
-
-interface ProductDetail {
-  title: string;
-  price: string;
-  description: string;
-  image: string;
-}
-
-interface Product {
-  id: number;
-  title: string;
-  category: string;
-  price: number;
-  description: string;
-  image: string;
-  rating: {
-    rate: number;
-    count: number;
-  };
-}
+import { Product, ProductDetail, Order } from '../types/types';  // Import types
 
 interface ShoppingCartContextType {
   counter: number;
@@ -231,8 +212,8 @@ interface ShoppingCartContextType {
   isCheckoutSideMenu: boolean;
   openCheckoutSideMenu: () => void;
   closeCheckoutSideMenu: () => void;
-  order: Product[];
-  setOrder: (products: Product[]) => void;
+  order: Order[];  // Update the type here
+  setOrder: (orders: Order[]) => void;  // Update the type here
   items: Product[];
   setItems: (items: Product[]) => void;
   searchValue: string;
@@ -253,9 +234,8 @@ interface ShoppingCartProviderProps {
   children: ReactNode;
 }
 
-// Define the function outside the component
 const filteredItemsByTitle = (items: Product[], searchValue: string, searchCategory: string): Product[] => {
-  console.log('Filtering items with:', searchValue, searchCategory);
+  // console.log('Filtering items with:', searchValue, searchCategory);
 
   const condition = (item: Product) => item.title.toLowerCase().includes(searchValue.toLowerCase());
   const categoryCondition = (item: Product) => item.category.toLowerCase().includes(searchCategory?.toLowerCase());
@@ -264,12 +244,12 @@ const filteredItemsByTitle = (items: Product[], searchValue: string, searchCateg
     const titleMatch = condition(item);
     const categoryMatch = categoryCondition(item);
 
-    console.log('Item:', item.title, 'Title Match:', titleMatch, 'Category Match:', categoryMatch);
+    // console.log('Item:', item.title, 'Title Match:', titleMatch, 'Category Match:', categoryMatch);
 
     return titleMatch || (searchCategory !== '' && categoryMatch);
   });
 
-  console.log('Filtered Items:', filteredItems);
+  // console.log('Filtered Items:', filteredItems);
 
   return filteredItems;
 };
@@ -292,7 +272,7 @@ export const ShoppingCartContext = createContext<ShoppingCartContextType>({
   isCheckoutSideMenu: false,
   openCheckoutSideMenu: () => {},
   closeCheckoutSideMenu: () => {},
-  order: [],
+  order: [],  // Initialize with an empty array
   setOrder: () => {},
   items: [],
   setItems: () => {},
@@ -321,7 +301,7 @@ export const ShoppingCartProvider: FC<ShoppingCartProviderProps> = ({ children }
     image: ''
   });
   const [cartProducts, setCartProducts] = useState<Product[]>([]);
-  const [order, setOrder] = useState<Product[]>([]);
+  const [order, setOrder] = useState<Order[]>([]);  // Update the state type
   const [items, setItems] = useState<Product[]>([]);
   const [filteredItems, setFilteredItems] = useState<Product[]>([]);
   const [searchValue, setSearchValue] = useState('');
@@ -329,12 +309,7 @@ export const ShoppingCartProvider: FC<ShoppingCartProviderProps> = ({ children }
 
   const openProductDetail = () => setIsProductDetailOpen(true);
   const closeProductDetail = () => setIsProductDetailOpen(false);
-  // const openCheckoutSideMenu = () => setIsCheckoutSideMenu(true);
-  const openCheckoutSideMenu = () => {
-    console.log('Opening CheckoutSideMenu');
-    setIsCheckoutSideMenu(true);
-  };
-  
+  const openCheckoutSideMenu = () => setIsCheckoutSideMenu(true);
   const closeCheckoutSideMenu = () => setIsCheckoutSideMenu(false);
 
   useEffect(() => {
@@ -345,11 +320,11 @@ export const ShoppingCartProvider: FC<ShoppingCartProviderProps> = ({ children }
         if (response.status !== 200) return;
 
         const data = await response.json();
-        console.log('Fetched Data:', data);
+        // console.log('Fetched Data:', data);
         setItems(data);
-        console.log('Initial state of items:', data);
+        // console.log('Initial state of items:', data);
       } catch (error) {
-        console.log('An error has occurred');
+        // console.log('An error has occurred');
       }
     };
 
@@ -374,38 +349,6 @@ export const ShoppingCartProvider: FC<ShoppingCartProviderProps> = ({ children }
   } = useLocalStorage();
 
   return (
-    // <ShoppingCartContext.Provider value={{
-    //   counter,
-    //   setCounter,
-    //   isProductDetailOpen,
-    //   openProductDetail,
-    //   closeProductDetail,
-    //   productDetail,
-    //   setProductDetail,
-    //   cartProducts,
-    //   setCartProducts,
-    //   isCheckoutSideMenu,
-    //   openCheckoutSideMenu,
-    //   closeCheckoutSideMenu,
-    //   order,
-    //   setOrder,
-    //   items,
-    //   setItems,
-    //   searchValue,
-    //   setSearchValue,
-    //   filteredItems,
-    //   setFilteredItems,
-    //   filteredItemsByTitle,
-    //   searchCategory,
-    //   setSearchCategory,
-    //   updateCategoryPath,
-    //   account,
-    //   signIn,
-    //   signOut,
-    //   isSignIn
-    // }}>
-    //   {children}
-    // </ShoppingCartContext.Provider>
     <ShoppingCartContext.Provider value={{
       counter,
       setCounter,
@@ -438,7 +381,5 @@ export const ShoppingCartProvider: FC<ShoppingCartProviderProps> = ({ children }
     }}>
       {children}
     </ShoppingCartContext.Provider>
-    
-    
   );
 };

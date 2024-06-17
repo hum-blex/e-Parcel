@@ -53,11 +53,11 @@ interface OrderCardProps {
 const OrderCard = (props: OrderCardProps) => {
   const { id, title, image, price, onDelete } = props;
 
-  console.log('OrderCard id:', id); // Add this line
-  console.log('OrderCard onDelete:', onDelete); // Add this line
+  // console.log('OrderCard id:', id); // Add this line
+  // console.log('OrderCard onDelete:', onDelete); // Add this line
 
   const handleDeleteClick = () => {
-    console.log('Delete button clicked for id:', id); // Add this line
+    // console.log('Delete button clicked for id:', id); // Add this line
     onDelete(id);
   };
 

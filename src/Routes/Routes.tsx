@@ -9,6 +9,8 @@ import ProfileSetting from "../Pages/ProfileSetting/ProfileSetting";
 import Wishlist from "../Pages/Wishlist/Wishlist";
 import OrderHistory from "../Pages/OrderHistory/OrderHistory";
 import NotFoundPage from '../Pages/NotFound';
+import Checkout from "../Pages/Checkout";
+
 
 export const router = createBrowserRouter([
   {
@@ -30,7 +32,8 @@ export const router = createBrowserRouter([
           { path: "", element: <UserProfile /> },
           { path: "profile-setting", element: <UserProfile /> },
           { path: "wishlist", element: <UserProfile /> },
-          { path: "order-history", element: <UserProfile /> }
+          { path: "checkout", element: <Checkout /> },
+          { path: "order-history", element: <OrderHistory /> },
         ]
       },
       { path: "*", element: <NotFoundPage /> } 

@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { FaUser, FaHeart, FaHistory } from "react-icons/fa";
+import { FaUser, FaHeart, FaHistory, FaCartPlus } from "react-icons/fa";
 
 type Props = {};
 
@@ -23,6 +23,13 @@ const Sidebar = (props: Props) => {
             >
               <FaHeart className="mr-3" />
               <h6>Wishlist</h6>
+            </Link>
+            <Link
+              to="checkout"
+              className="flex min-w-full text-blueGray-500 text-xs uppercase font-bold pt-1 pb-4 no-underline"
+            >
+              <FaCartPlus className="mr-3" />
+              <h6>Checkout</h6>
             </Link>
             <Link
               to="order-history"
